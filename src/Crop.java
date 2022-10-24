@@ -1,3 +1,8 @@
+/** Crop class which defines the attributes that each crop contains
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 1.1
+ * @since 24/10/2022
+ */
 public class Crop {
     private String name;
     private String type;

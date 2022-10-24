@@ -1,31 +1,64 @@
+/** Tiles for interaction for the farming game. Contains the crops and land the player will utilize.
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 1.1
+ * @since 24/10/2022
+ */
 public class Tile {
-    private String state = "not plowed";
-    private char stateID = 'n';
-    private boolean hasWater = false;
-    private boolean hasFert = false;
+    private String state;
+    private char stateID;
+    private boolean hasWater;
+    private boolean hasFert;
     private Crop crop;
+
+    public Tile() {
+        this.state = "not plowed";
+        this.stateID = '_';
+        this.hasWater = false;
+        this.hasFert = false;
+        this.crop = null;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public char getStateID() {
+        return stateID;
+    }
+
+    public boolean isHasWater() {
+        return hasWater;
+    }
+
+    public boolean isHasFert() {
+        return hasFert;
+    }
+
+    public Crop getCrop() {
+        return crop;
+    }
 
     public void setStateID(char stateID) {
         /*
          * StateID and State can only have these possible values
-         * 'n' = "not plowed"
+         * '_' = "not plowed"
          * 'p' = "plowed"
          * 'c' = "crop
          * 'r' = "rock"
          * */
         switch(stateID)
         {
-            case 'n':
+            case '_':
                 this.state = "not plowed";
                 break;
-            case 'p':
+            case '=':
                 this.state = "plowed";
                 break;
-            case 'r':
-                this.state = "rock";
+            case '^':
+                this.state = "rocky";
                 break;
-            case 'c':
-                this.state = "crop";
+            case '!':
+                this.state = "growing with a crop";
                 break;
         }
         this.stateID = stateID;

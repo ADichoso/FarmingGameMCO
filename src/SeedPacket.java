@@ -1,3 +1,8 @@
+/** SeedPacket class which contains the seeds that the player uses to plant crops
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 1.1
+ * @since 24/10/2022
+ */
 public class SeedPacket {
     private int amount;
     private int cost;

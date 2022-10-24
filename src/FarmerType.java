@@ -1,3 +1,8 @@
+/** FarmerType class which defines the different perks of farmer registration in the game
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 1.1
+ * @since 24/10/2022
+ */
 public class FarmerType {
     private String name;
     private int levelReq;
