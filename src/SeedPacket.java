@@ -8,6 +8,22 @@ public class SeedPacket {
     private int cost;
     private String cropName;
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public String getCropName() {
+        return cropName;
+    }
+
     public SeedPacket(int amount, int cost, String cropName) {
         this.amount = amount;
         this.cost = cost;

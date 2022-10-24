@@ -46,8 +46,7 @@ public class Tile {
          * 'c' = "crop
          * 'r' = "rock"
          * */
-        switch(stateID)
-        {
+        switch (stateID) {
             case '_':
                 this.state = "not plowed";
                 break;
@@ -57,13 +56,13 @@ public class Tile {
             case '^':
                 this.state = "rocky";
                 break;
-            case '!':
-                this.state = "growing with a crop";
-                break;
         }
         this.stateID = stateID;
     }
 
+    public boolean hasCrop() {
+        return this.crop != null;
+    }
     public void setCrop(Crop crop) {
         this.crop = crop;
         setStateID('c');

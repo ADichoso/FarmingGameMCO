@@ -104,20 +104,59 @@ public class GameSystem {
         }
     }
 
+    public static String selectCropName(Scanner sc)
+    {
+        String selectedCropName = "";
+        boolean isValidInput = false;
+        do
+        {
+            player.checkSeedInv();
+            System.out.println("=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+            System.out.println("Please input the name of the plant you wish to plant:");
+            String userInput = sc.next();
+
+            for(int i = 0; i < player.getSeeds().size(); i++)
+            {
+                if(player.getSeeds().get(i).getCropName().equalsIgnoreCase(userInput)) //Check if user put a name of a crop
+                {
+                    //user picked a valid seed, check if that seed actually has amount
+                    if(player.getSeeds().get(i).getAmount() != 0)
+                    {
+                        isValidInput = true;
+                        selectedCropName = userInput; //Valid input
+                    }
+                }
+            }
+        }while(!isValidInput);
+
+        return selectedCropName;
+    }
+
+    public static Crop getCropTypeFromName(String cropName)
+    {
+        for(int i = 0; i < cropTypes.size(); i++)
+        {
+            if(cropTypes.get(i).getName().equalsIgnoreCase(cropName))
+                return cropTypes.get(i);
+        }
+        return null;
+    }
     private static void showLandActions(Scanner sc)
     {
         boolean isValidInput = false;
         do {
             System.out.println("=-=-=Land Actions=-=-=");
-            System.out.println("Check Land: land");
+            System.out.println("Check Land: check");
             System.out.println("Plow Land: plow");
             System.out.println("Plant Seeds: plant");
             System.out.println("Remove Rock: mine");
-            System.out.println("Use shovel: dig");
+            System.out.println("Use Shovel: dig");
+            System.out.println("Water Land: water");
+            System.out.println("Fertilize Land: fert");
             String userInput = sc.next();
 
             switch (userInput.toLowerCase()) {
-                case "land":
+                case "check":
                     System.out.println("=-=-=Current Land Info=-=-=");
                     System.out.println("State: " + tileSet.get(0).getState());
                     System.out.println("Watered: " + tileSet.get(0).isHasWater());
@@ -131,14 +170,31 @@ public class GameSystem {
                     break;
                 case "plant":
                     System.out.println("=-=-=Trying to Plant=-=-=");
+                    if(player.hasSeeds())
+                    {
+                        Crop crop = getCropTypeFromName(selectCropName(sc));
+                        player.plantCrop(tileSet.get(0), crop);
+                    }
                     isValidInput = true;
                     break;
                 case "mine":
                     System.out.println("=-=-=Trying to Mine=-=-=");
+                    player.removeRock(tileSet.get(0));
                     isValidInput = true;
                     break;
                 case "dig":
                     System.out.println("=-=-=Trying to Dig=-=-=");
+                    player.useShovel(tileSet.get(0));
+                    isValidInput = true;
+                    break;
+                case "water":
+                    System.out.println("=-=-=Trying to Water=-=-=");
+                    player.waterLand(tileSet.get(0));
+                    isValidInput = true;
+                    break;
+                case "fert":
+                    System.out.println("=-=-=Trying to Fertilize=-=-=");
+                    player.fertilizeLand(tileSet.get(0));
                     isValidInput = true;
                     break;
                 default:
@@ -152,7 +208,7 @@ public class GameSystem {
         boolean isValidInput = false;
         do {
             System.out.println("Day " + currDay + ". What would you like to do?");
-            System.out.println("Perform Action -> Land: useLand");
+            System.out.println("Perform Action -> Land: land");
             System.out.println("Check Seeds: seed");
             System.out.println("Check Tools: tool");
             System.out.println("Check Stats: stat");
@@ -160,7 +216,7 @@ public class GameSystem {
             String userInput = sc.next();
 
             switch (userInput.toLowerCase()) {
-                case "useLand":
+                case "land":
                     showLandActions(sc);
                     isValidInput = true;
                     break;

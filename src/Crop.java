@@ -17,6 +17,54 @@ public class Crop {
     private int sellPrice;
     private float expYield;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getHarvestTime() {
+        return harvestTime;
+    }
+
+    public int getWaterNeed() {
+        return waterNeed;
+    }
+
+    public int getFertNeed() {
+        return fertNeed;
+    }
+
+    public int getWaterLim() {
+        return waterLim;
+    }
+
+    public int getFertLim() {
+        return fertLim;
+    }
+
+    public int getMinProduce() {
+        return minProduce;
+    }
+
+    public int getMaxProduce() {
+        return maxProduce;
+    }
+
+    public int getSellPrice() {
+        return sellPrice;
+    }
+
+    public float getExpYield() {
+        return expYield;
+    }
+
     public Crop(String name, String type, int harvestTime, int waterNeed, int fertNeed, int waterLim, int fertLim, int minProduce, int maxProduce, int sellPrice, float expYield) {
         this.age = 0;
         this.name = name;

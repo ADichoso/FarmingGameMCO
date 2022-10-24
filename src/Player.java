@@ -5,6 +5,8 @@ import java.util.ArrayList;
  * @version 1.1
  * @since 24/10/2022
  */
+
+//TODO: SeedsPackets is implemented wrong, Player should only buy seeds WHEN they will PLANT. THERE IS NO INVENTORY.
 public class Player {
     private String name;
     private float experience;
@@ -99,12 +101,8 @@ public class Player {
     private int getTool(char toolID)
     {
         for(int i = 0; i < tools.size(); i++)
-        {
             if(tools.get(i).getID() == toolID)
-            {
                 return i;
-            }
-        }
         return -1;
     }
     public void useTool(char toolID)
@@ -124,6 +122,20 @@ public class Player {
             System.out.println(name + " uses a " + toolToUse.getName() + "!");
         }
     }
+
+    public boolean hasSeeds()
+    {
+        for(int i = 0; i < seeds.size(); i++)
+            if(seeds.get(i).getAmount() != 0)
+                return true;
+        return false;
+    }
+    public void checkSeedInv()
+    {
+        System.out.println("=-=-=-=SEED INVENTORY=-=-=-=");
+        for(int i = 0; i < seeds.size(); i++)
+            System.out.printf("%d. %s : %d", i, seeds.get(i).getCropName(), seeds.get(i).getAmount());
+    }
     public void plowTile(Tile tile)
     {
         //If tile is not yet plowed & does not have a rock on it, plow the tile.
@@ -134,7 +146,79 @@ public class Player {
         if(tileState == '_')
         {
             useTool('p');
-            tile.setStateID('p');
+            tile.setStateID('='); //Plowed Tile
         }
+        else
+            System.out.println("Whoops! Looks like you cannot plow on that tile!");
+    }
+
+    public void plantCrop(Tile tile, Crop crop)
+    {
+        //Check first if the tile is plowed
+        char tileState = tile.getStateID();
+
+        if(tileState == '=')//Is Plowed
+            tile.setCrop(crop);
+        else
+            System.out.println("Whoops! Looks like that tile is not yet plowed!");
+    }
+
+    public void removeRock(Tile tile)
+    {
+        //Check first if the tile has a rock
+        char tileState = tile.getStateID();
+
+        if(tileState == '^')
+        {
+            //Has rock
+            useTool('x');
+            tile.setStateID('_'); //Unplowed Tile
+        } else
+            System.out.println("Whoops! Looks like there's no rock on that tile!");
+    }
+    public void useShovel(Tile tile)
+    {
+        //You can use the shovel in any tile
+        char tileState = tile.getStateID();
+
+        useTool('s');
+
+        if(tileState == '=' || tileState == '_') //Tile with Crop
+        {
+            //Has rock
+            tile.setStateID('_'); //Unplowed Tile
+            tile.setHasFert(false);
+            tile.setHasWater(false);
+
+            if(tile.hasCrop()) {
+                tile.setCrop(null);
+                System.out.println("You removed the crop!");
+            }
+            else
+                System.out.println("The ground's water and fertilizer is gone!");
+        } else
+            System.out.println("You used your shovel! That did nothing!");
+    }
+
+    public void waterLand(Tile tile)
+    {
+        //Check first if the tile has a rock
+        char tileState = tile.getStateID();
+
+        if(tileState == '=')
+            tile.setHasWater(true);
+        else
+            System.out.println("Whoops! Looks like you can't water that tile!");
+    }
+
+    public void fertilizeLand(Tile tile)
+    {
+        //Check first if the tile has a rock
+        char tileState = tile.getStateID();
+
+        if(tileState == '=')
+            tile.setHasFert(true);
+        else
+            System.out.println("Whoops! Looks like you can't fertilize that tile!");
     }
 }
