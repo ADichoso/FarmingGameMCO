@@ -32,6 +32,12 @@ public class Tool {
         this.useCost = useCost;
         this.expGain = expGain;
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%-12s|\t%c\t|\t%d per use\t|\t%d exp gained\t|", name, ID, useCost, expGain);
+    }
 }
 
 

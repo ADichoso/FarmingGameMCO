@@ -6,6 +6,7 @@
 public class Crop {
     private String name;
     private String type;
+    private int cost;
     private int age;
     private int harvestTime;
     private int waterNeed;
@@ -25,6 +26,10 @@ public class Crop {
         return type;
     }
 
+    public int getCost()
+    {
+        return cost;
+    }
     public int getAge() {
         return age;
     }
@@ -65,8 +70,9 @@ public class Crop {
         return expYield;
     }
 
-    public Crop(String name, String type, int harvestTime, int waterNeed, int fertNeed, int waterLim, int fertLim, int minProduce, int maxProduce, int sellPrice, float expYield) {
+    public Crop(String name, String type, int cost, int harvestTime, int waterNeed, int fertNeed, int waterLim, int fertLim, int minProduce, int maxProduce, int sellPrice, float expYield) {
         this.age = 0;
+        this.cost = cost;
         this.name = name;
         this.type = type;
         this.harvestTime = harvestTime;
@@ -78,5 +84,16 @@ public class Crop {
         this.maxProduce = maxProduce;
         this.sellPrice = sellPrice;
         this.expYield = expYield;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%-12s|\t%-12s\t|\t%d\t|\t%d Days\t|\t%d-%d Times\t|\t%d-%d Times\t|\tProduces %d-%d\t|\t%d Objectcoins\t|\t%.2f EXP\t|", name, type, cost, harvestTime, waterNeed, waterLim, fertNeed, fertLim, minProduce, maxProduce, sellPrice, expYield);
+    }
+
+    public boolean isWithered()
+    {
+        return harvestTime < age;
     }
 }

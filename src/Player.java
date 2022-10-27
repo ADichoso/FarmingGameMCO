@@ -13,8 +13,16 @@ public class Player {
     private int level;
     private int objectCoins;
     private ArrayList<Tool> tools;
-    private ArrayList<SeedPacket> seeds;
 
+    private FarmerType farmerType;
+
+    public FarmerType getFarmerType() {
+        return farmerType;
+    }
+
+    public void setFarmerType(FarmerType farmerType) {
+        this.farmerType = farmerType;
+    }
 
     public String getName() {
         return name;
@@ -56,23 +64,15 @@ public class Player {
         this.tools = tools;
     }
 
-    public ArrayList<SeedPacket> getSeeds() {
-        return seeds;
-    }
 
-    public void setSeeds(ArrayList<SeedPacket> seeds) {
-        this.seeds = seeds;
-    }
-
-    public Player(String name)
+    public Player(String name, FarmerType farmerType)
     {
         this.name = name;
         this.experience = 0;
         this.level = 0;
         this.objectCoins = 100;
-
+        this.farmerType = farmerType;
         initializeTools();
-        initializeSeeds();
     }
 
     private void initializeTools()
@@ -84,20 +84,6 @@ public class Player {
         tools.add(new Tool("Pickaxe", 'x', 50, 15));
         tools.add(new Tool("Shovel", 's', 7, 2));
     }
-
-    private void initializeSeeds()
-    {
-        seeds = new ArrayList<SeedPacket>();
-        seeds.add(new SeedPacket(0, 5, "Turnip"));
-        seeds.add(new SeedPacket(0, 10, "Carrot"));
-        seeds.add(new SeedPacket(0, 20, "Potato"));
-        seeds.add(new SeedPacket(0, 5, "Rose"));
-        seeds.add(new SeedPacket(0, 10, "Tulip"));
-        seeds.add(new SeedPacket(0, 20, "Sunflower"));
-        seeds.add(new SeedPacket(0, 100, "Mango"));
-        seeds.add(new SeedPacket(0, 10, "Apple"));
-    }
-
     private int getTool(char toolID)
     {
         for(int i = 0; i < tools.size(); i++)
@@ -123,19 +109,6 @@ public class Player {
         }
     }
 
-    public boolean hasSeeds()
-    {
-        for(int i = 0; i < seeds.size(); i++)
-            if(seeds.get(i).getAmount() != 0)
-                return true;
-        return false;
-    }
-    public void checkSeedInv()
-    {
-        System.out.println("=-=-=-=SEED INVENTORY=-=-=-=");
-        for(int i = 0; i < seeds.size(); i++)
-            System.out.printf("%d. %s : %d", i, seeds.get(i).getCropName(), seeds.get(i).getAmount());
-    }
     public void plowTile(Tile tile)
     {
         //If tile is not yet plowed & does not have a rock on it, plow the tile.
@@ -157,8 +130,11 @@ public class Player {
         //Check first if the tile is plowed
         char tileState = tile.getStateID();
 
-        if(tileState == '=')//Is Plowed
+        if(tileState == '=') {
+            //Is Plowed
             tile.setCrop(crop);
+            System.out.println(name + " has planted a " + crop.getName());
+        }
         else
             System.out.println("Whoops! Looks like that tile is not yet plowed!");
     }

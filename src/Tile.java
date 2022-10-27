@@ -21,23 +21,18 @@ public class Tile {
     public String getState() {
         return state;
     }
-
     public char getStateID() {
         return stateID;
     }
-
     public boolean isHasWater() {
         return hasWater;
     }
-
     public boolean isHasFert() {
         return hasFert;
     }
-
     public Crop getCrop() {
         return crop;
     }
-
     public void setStateID(char stateID) {
         /*
          * StateID and State can only have these possible values
