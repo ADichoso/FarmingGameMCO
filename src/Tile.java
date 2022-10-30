@@ -6,15 +6,11 @@
 public class Tile {
     private String state;
     private char stateID;
-    private boolean hasWater;
-    private boolean hasFert;
     private Crop crop;
 
     public Tile() {
         this.state = "not plowed";
         this.stateID = '_';
-        this.hasWater = false;
-        this.hasFert = false;
         this.crop = null;
     }
 
@@ -23,12 +19,6 @@ public class Tile {
     }
     public char getStateID() {
         return stateID;
-    }
-    public boolean isHasWater() {
-        return hasWater;
-    }
-    public boolean isHasFert() {
-        return hasFert;
     }
     public Crop getCrop() {
         return crop;
@@ -60,14 +50,14 @@ public class Tile {
     }
     public void setCrop(Crop crop) {
         this.crop = crop;
-        setStateID('c');
+    }
+    public void waterCrop()
+    {
+        crop.addWater();
     }
 
-    public void setHasWater(boolean hasWater) {
-        this.hasWater = hasWater;
-    }
-
-    public void setHasFert(boolean hasFert) {
-        this.hasFert = hasFert;
+    public void fertilizeCrop()
+    {
+        crop.addFertilizer();
     }
 }

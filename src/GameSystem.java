@@ -17,6 +17,8 @@ public class GameSystem {
     private static void advanceDay()
     {
         System.out.println("It is now day " + ++currDay);
+        for(int i = 0; i < tileSet.size(); i++)
+            tileSet.get(i).getCrop().growCrop();
     }
 
     private static void initializeFarmerTypes()
@@ -56,7 +58,7 @@ public class GameSystem {
             showSeedStore();
             System.out.println("=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             System.out.println("Please input the name of the plant you wish to plant:");
-            String userInput = sc.next();
+            String userInput = sc.nextLine();
 
             for(int i = 0; i < cropTypes.size(); i++)
             {
@@ -84,9 +86,23 @@ public class GameSystem {
 
     public static void showSeedStore()
     {
-        System.out.println("=-=-=-=SEED STORE=-=-=-=");
-        for(int i = 0; i < cropTypes.size(); i++)
-            System.out.printf("%d: %s\n", i, cropTypes.get(i).toString());
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-SEED STORE-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+        System.out.println(">> Name        |\tCrop Type   \t| Costs |  Maturity |\tWater Reqs\t|\tFert Reqs\t|\tYield Amount\t| SellPrice/Produce |\tEXP Gain\t|");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------");
+        for(int i = 0; i < cropTypes.size(); i++) {
+            Crop currCrop = cropTypes.get(i);
+            System.out.printf("%d: %s\n", i,
+                    String.format("%-12s|\t%-12s\t|\t%d\t|\t%d Days\t|\t%d-%d Times\t|\t%d-%d Times\t|\tProduces %d-%d\t|\t%d Objectcoins\t|\t%.2f EXP\t|",
+                            currCrop.getName(), currCrop.getType(),
+                            currCrop.getCost() - player.getFarmerType().getSeedCostReduct(),
+                            currCrop.getHarvestTime(), currCrop.getWaterNeed(),
+                            currCrop.getWaterLim() + player.getFarmerType().getWaterBonusLimInc(),
+                            currCrop.getFertNeed() + player.getFarmerType().getFertBonusLimInc(),
+                            currCrop.getFertLim(), currCrop.getMinProduce(), currCrop.getMaxProduce(),
+                            currCrop.getSellPrice() + player.getFarmerType().getBonusEarn(),
+                            currCrop.getExpYield()));
+        }
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------");
     }
     public static void showToolInfo()
     {
@@ -98,8 +114,8 @@ public class GameSystem {
     {
         System.out.println("=-=-=-=PLAYER INFO=-=-=-=");
         System.out.println("Name: " + player.getName());
-        System.out.println("Title: " + player.getFarmerType());
-        System.out.println("Objectcoins: " + player.getObjectCoins() + "@s");
+        System.out.println("Title: " + player.getFarmerType().getName());
+        System.out.println("Objectcoins: " + player.getObjectCoins());
         System.out.println("Current Level: "+ player.getLevel());
         System.out.println("Current EXP: " + player.getExperience());
     }
@@ -107,13 +123,16 @@ public class GameSystem {
     {
         System.out.println("=-=-=CURRENT LAND INFO=-=-=");
         System.out.println("State: " + tileSet.get(0).getState());
-        System.out.println("Watered: " + tileSet.get(0).isHasWater());
-        System.out.println("Has Fertilizer: " + tileSet.get(0).isHasFert());
         System.out.println("Has Plant: " + tileSet.get(0).hasCrop());
         if(tileSet.get(0).hasCrop())
         {
-            System.out.println("Current Plant: " + tileSet.get(0).getCrop().getName());
-            System.out.println("Is Withered: " + tileSet.get(0).getCrop().isWithered());
+            System.out.println("\t>> Current Plant: " + tileSet.get(0).getCrop().getName());
+            System.out.println("\t\t- Age: " + tileSet.get(0).getCrop().getAge());
+            System.out.println("\t\t- Is Withered: " + tileSet.get(0).getCrop().isWithered());
+            System.out.println("\t\t- Times Watered: " + tileSet.get(0).getCrop().getWaterTimes());
+            System.out.println("\t\t\t- Has Water Needs: " + tileSet.get(0).getCrop().hasWaterNeeds());
+            System.out.println("\t\t- Times Fertilized: " + tileSet.get(0).getCrop().getFertTimes());
+            System.out.println("\t\t\t- Has Fertilizer Needs: " + tileSet.get(0).getCrop().hasFertNeeds());
         }
     }
 
@@ -121,6 +140,8 @@ public class GameSystem {
     {
         boolean backGame = false;
         do {
+            showFarm();
+            System.out.println();
             System.out.println("=-=-=Land Actions=-=-=");
             System.out.println("Check Land: check");
             System.out.println("Plow Land: plow");
@@ -128,10 +149,12 @@ public class GameSystem {
             System.out.println("Remove Rock: mine");
             System.out.println("Use Shovel: dig");
             System.out.println("Water Land: water");
-            System.out.println("Fertilize Land: fert");
+            System.out.println("Fertilize Land: fertilize");
+            System.out.println("Harvest crop: harvest");
             System.out.println("Back to Actions: back");
-            String userInput = sc.next();
+            String userInput = sc.nextLine();
 
+            System.out.println("");
             switch (userInput.toLowerCase()) {
                 case "check":
                     showTileInfo();
@@ -157,17 +180,23 @@ public class GameSystem {
                     System.out.println("=-=-=Trying to Water=-=-=");
                     player.waterLand(tileSet.get(0));
                     break;
-                case "fert":
+                case "fertilize":
                     System.out.println("=-=-=Trying to Fertilize=-=-=");
                     player.fertilizeLand(tileSet.get(0));
                     break;
+                case "harvest":
+                    System.out.println("=-=-=Trying to Harvest=-=-=");
+                    player.harvestCrop(tileSet.get(0));
+                    break;
                 case "back":
-                    System.out.println("=-=-=Going back to options=-=-=");
+                    System.out.println("=-=-=Going Back to Options=-=-=");
                     backGame = true;
+                    break;
                 default:
-                    System.out.println("INVALID INPUT! Please Try Again!");
+                    System.out.println("INVALID INPUT!!! Please Try Again!");
                     break;
             }
+            System.out.println("");
         }while(!backGame);
     }
     private static void showActions(Scanner sc)
@@ -181,8 +210,10 @@ public class GameSystem {
             System.out.println("Check Stats: stat");
             System.out.println("Go to Sleep: sleep");
             System.out.println("Quit Game: quit");
-            String userInput = sc.next();
+            String userInput = sc.nextLine();
 
+
+            System.out.println("");
             switch (userInput.toLowerCase()) {
                 case "land":
                     showLandActions(sc);
@@ -205,17 +236,19 @@ public class GameSystem {
                     quitGame = true;
                     break;
                 default:
-                    System.out.println("INVALID INPUT! Please Try Again!");
+                    System.out.println("INVALID INPUT!! Please Try Again!");
                     break;
             }
+
         }while(!quitGame);
     }
 
     private static void showFarm()
     {
+        System.out.println("=-=-=" + player.getName() + "'s FARM=-=-=");
         for(int i = 0; i < tileSet.size(); i++)
         {
-            System.out.printf("[%c]", tileSet.get(i).getStateID());
+            System.out.printf("          [%c]          ", tileSet.get(i).getStateID());
 
             if((i+1) % WIDTH == 0)
                 System.out.println("");
@@ -225,45 +258,47 @@ public class GameSystem {
 
     private static void showMainMenu()
     {
-        System.out.println("-=-=-=-=-=-=-=-=WELCOME TO GATHER SUN!=-=-=-=-=-=-=-=-=-");
-        System.out.println("Play: p");
-        System.out.println("Help: h");
-        System.out.println("Exit: e");
-
-        boolean quitGame = false;
+        boolean exitProgram = false;
         do
         {
+            System.out.println("-=-=-=-=-=-=-=-=WELCOME TO GATHER SUN!=-=-=-=-=-=-=-=-=-");
+            System.out.println("Play: p");
+            System.out.println("Help: h");
+            System.out.println("Exit: e");
+
             Scanner sc = new Scanner(System.in);
 
             String input = sc.nextLine();
 
+            System.out.println("");
             switch(input.toLowerCase()){
                 case "p":
-                    startGame();
+                    startGame(sc);
                     break;
                 case "h":
                     System.out.println("Its like harvest moon! :D");
                     break;
-                case "q":
-                    quitGame = true;
+                case "e":
+                    exitProgram = true;
                     break;
                 default:
                     System.out.println("INVALID INPUT! Please Try Again!");
                     break;
             }
-        }while(!quitGame);
+            System.out.println("");
+
+        }while(!exitProgram);
     }
 
-    private static void startGame()
+    private static void startGame(Scanner sc)
     {
-        Scanner sc = new Scanner(System.in);
 
         System.out.println("Please enter your name: ");
         String name = sc.nextLine();
 
         player = new Player(name, farmerTypes.get(0));
 
-        System.out.println("Welcome " + player.getName() + " to your brand new farm!");
+        System.out.println("Welcome " + player.getName() + " to your brand new farm!\n");
 
         showFarm();
         showActions(sc);

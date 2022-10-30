@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /** Player class which acts as a farmer for the farming game
  * @author Aaron Dichoso & Andrei Martin
@@ -37,7 +38,8 @@ public class Player {
     }
 
     public void setExperience(float experience) {
-        this.experience = experience;
+        if(experience >= 0)
+            this.experience = experience;
     }
 
     public int getLevel() {
@@ -45,7 +47,8 @@ public class Player {
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        if(level >= 0)
+            this.level = level;
     }
 
     public int getObjectCoins() {
@@ -53,7 +56,8 @@ public class Player {
     }
 
     public void setObjectCoins(int objectCoins) {
-        this.objectCoins = objectCoins;
+        if(objectCoins >= 0)
+            this.objectCoins = objectCoins;
     }
 
     public ArrayList<Tool> getTools() {
@@ -64,6 +68,25 @@ public class Player {
         this.tools = tools;
     }
 
+    public void spendObjectCoins(int cost)
+    {
+        setObjectCoins(getObjectCoins() - cost);
+    }
+
+    public void gainObjectCoins(int cost)
+    {
+        setObjectCoins(getObjectCoins() + cost);
+    }
+
+    public void addExperience(float addExp)
+    {
+        setExperience(getExperience() + addExp);
+    }
+
+    public void levelUp()
+    {
+        setLevel(getLevel() + 1);
+    }
 
     public Player(String name, FarmerType farmerType)
     {
@@ -99,14 +122,16 @@ public class Player {
         //Check if player has enough objectcoins to use
         if(toolToUse.getUseCost() <= objectCoins)
         {
-            objectCoins -= toolToUse.getUseCost();
+            spendObjectCoins(toolToUse.getUseCost());
             experience += toolToUse.getExpGain();
 
             if(toolToUse.getUseCost() > 0)
                 System.out.println(name + "uses " + toolToUse.getUseCost() + " objectcoins to use the " + toolToUse.getName());
 
             System.out.println(name + " uses a " + toolToUse.getName() + "!");
-        }
+        } else
+            System.out.println("Whoops! Looks like you do not have enough Objectcoins for that tool!");
+
     }
 
     public void plowTile(Tile tile)
@@ -130,15 +155,67 @@ public class Player {
         //Check first if the tile is plowed
         char tileState = tile.getStateID();
 
+        int cost = crop.getCost() - farmerType.getSeedCostReduct();
+
+        if(cost < 0)
+            cost = 0;
+
         if(tileState == '=') {
             //Is Plowed
-            tile.setCrop(crop);
-            System.out.println(name + " has planted a " + crop.getName());
+            if(cost <= objectCoins) {
+                tile.setCrop(crop); //Plant the crop
+                spendObjectCoins(cost); //Spend the amount of coins it costs for the plant
+
+                System.out.println(name + " has planted a " + crop.getName());
+            }
+            else
+                System.out.println("Whoops! Looks like you do not have enough Objectcoins for that crop!");
         }
         else
             System.out.println("Whoops! Looks like that tile is not yet plowed!");
     }
 
+    public void harvestCrop(Tile tile)
+    {
+        //Check first if tile is plowed
+        char tileState = tile.getStateID();
+
+        if(tileState == '=')
+        {
+            if(tile.getCrop() != null)
+            {
+                if(tile.getCrop().isMature()) {
+                    //Sell the crop
+                    Random rand = new Random();
+                    int numProduce = rand.nextInt(tile.getCrop().getMinProduce(), tile.getCrop().getMaxProduce() + 1);
+                    float harvestBonus = tile.getCrop().getSellPrice() + farmerType.getBonusEarn() * numProduce;
+                    float waterBonus = numProduce * 0.2f * (tile.getCrop().getWaterTimes() - 1);
+                    float fertBonus = numProduce * 0.5f * tile.getCrop().getFertTimes();
+
+
+                    int earnings = (int) (harvestBonus + waterBonus + fertBonus);
+                    System.out.println(name + " harvested " + numProduce + " " + tile.getCrop().getName() + "/s!");
+                    System.out.println(name + " has earned " + earnings + " Objectcoins!");
+                    gainObjectCoins(earnings);
+
+                    float expGain = tile.getCrop().getExpYield();
+                    System.out.println(name + " has gained " + expGain + " EXP!");
+                    addExperience(expGain);
+
+
+                    //Remove the crop
+                    tile.setCrop(null);
+                    tile.setStateID('_');
+                }
+                else
+                    System.out.println("Whoops! Looks like the crop is not yet matured!");
+            }
+            else
+                System.out.println("Whoops! Looks like that tile does not have a crop!");
+        }
+        else
+            System.out.println("Whoops! Looks like that tile is not plowed!");
+    }
     public void removeRock(Tile tile)
     {
         //Check first if the tile has a rock
@@ -149,6 +226,7 @@ public class Player {
             //Has rock
             useTool('x');
             tile.setStateID('_'); //Unplowed Tile
+            System.out.println(name + " has removed a rock!");
         } else
             System.out.println("Whoops! Looks like there's no rock on that tile!");
     }
@@ -163,8 +241,6 @@ public class Player {
         {
             //Has rock
             tile.setStateID('_'); //Unplowed Tile
-            tile.setHasFert(false);
-            tile.setHasWater(false);
 
             if(tile.hasCrop()) {
                 tile.setCrop(null);
@@ -181,8 +257,10 @@ public class Player {
         //Check first if the tile has a rock
         char tileState = tile.getStateID();
 
-        if(tileState == '=')
-            tile.setHasWater(true);
+        if(tileState == '=') {
+            tile.waterCrop();
+            System.out.println(name + " has watered the land!");
+        }
         else
             System.out.println("Whoops! Looks like you can't water that tile!");
     }
@@ -192,8 +270,10 @@ public class Player {
         //Check first if the tile has a rock
         char tileState = tile.getStateID();
 
-        if(tileState == '=')
-            tile.setHasFert(true);
+        if(tileState == '=') {
+        tile.fertilizeCrop();
+        System.out.println(name + " has put fertilizer!");
+        }
         else
             System.out.println("Whoops! Looks like you can't fertilize that tile!");
     }

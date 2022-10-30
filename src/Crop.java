@@ -13,10 +13,36 @@ public class Crop {
     private int fertNeed;
     private int waterLim;
     private int fertLim;
+
+    private int waterTimes;
+    private int fertTimes;
     private int minProduce;
     private int maxProduce;
     private int sellPrice;
     private float expYield;
+
+    public int getWaterTimes() {
+        return waterTimes;
+    }
+
+    public void setWaterTimes(int waterTimes) {
+        if(waterTimes >= 0 && waterTimes <= getWaterLim())
+            this.waterTimes = waterTimes;
+    }
+
+    public int getFertTimes() {
+        return fertTimes;
+    }
+
+    public void setFertTimes(int fertTimes) {
+        if(fertTimes >= 0 && fertTimes <= getFertLim())
+            this.fertTimes = fertTimes;
+    }
+
+    public void setAge(int age) {
+        if(age >= 0)
+            this.age = age;
+    }
 
     public String getName() {
         return name;
@@ -70,8 +96,43 @@ public class Crop {
         return expYield;
     }
 
+    public boolean isWithered()
+    {
+        return harvestTime < age || (isMature() && !hasWaterNeeds());
+    }
+
+    public boolean isMature()
+    {
+        return getHarvestTime() == getAge();
+    }
+    public void growCrop()
+    {
+        setAge(getAge() + 1);
+    }
+
+    public void addWater()
+    {
+        setWaterTimes(getWaterTimes() + 1);
+    }
+
+    public void addFertilizer()
+    {
+        setFertTimes(getFertTimes() + 1);
+    }
+    public boolean hasWaterNeeds()
+    {
+        return getWaterTimes() >= getWaterNeed();
+    }
+
+    public boolean hasFertNeeds()
+    {
+        return getFertTimes() >= getFertNeed();
+    }
+
     public Crop(String name, String type, int cost, int harvestTime, int waterNeed, int fertNeed, int waterLim, int fertLim, int minProduce, int maxProduce, int sellPrice, float expYield) {
         this.age = 0;
+        this.waterTimes = 0;
+        this.fertTimes = 0;
         this.cost = cost;
         this.name = name;
         this.type = type;
@@ -84,16 +145,5 @@ public class Crop {
         this.maxProduce = maxProduce;
         this.sellPrice = sellPrice;
         this.expYield = expYield;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("%-12s|\t%-12s\t|\t%d\t|\t%d Days\t|\t%d-%d Times\t|\t%d-%d Times\t|\tProduces %d-%d\t|\t%d Objectcoins\t|\t%.2f EXP\t|", name, type, cost, harvestTime, waterNeed, waterLim, fertNeed, fertLim, minProduce, maxProduce, sellPrice, expYield);
-    }
-
-    public boolean isWithered()
-    {
-        return harvestTime < age;
     }
 }

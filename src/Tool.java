@@ -36,7 +36,7 @@ public class Tool {
     @Override
     public String toString()
     {
-        return String.format("%-12s|\t%c\t|\t%d per use\t|\t%d exp gained\t|", name, ID, useCost, expGain);
+        return String.format("%-12s|\t%c\t|\t%d per use\t|\t%f exp gained\t|", name, ID, useCost, expGain);
     }
 }
 
