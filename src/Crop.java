@@ -21,114 +21,21 @@ public class Crop {
     private int sellPrice;
     private float expYield;
 
-    public int getWaterTimes() {
-        return waterTimes;
-    }
-
-    public void setWaterTimes(int waterTimes) {
-        if(waterTimes >= 0 && waterTimes <= getWaterLim())
-            this.waterTimes = waterTimes;
-    }
-
-    public int getFertTimes() {
-        return fertTimes;
-    }
-
-    public void setFertTimes(int fertTimes) {
-        if(fertTimes >= 0 && fertTimes <= getFertLim())
-            this.fertTimes = fertTimes;
-    }
-
-    public void setAge(int age) {
-        if(age >= 0)
-            this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getCost()
-    {
-        return cost;
-    }
-    public int getAge() {
-        return age;
-    }
-
-    public int getHarvestTime() {
-        return harvestTime;
-    }
-
-    public int getWaterNeed() {
-        return waterNeed;
-    }
-
-    public int getFertNeed() {
-        return fertNeed;
-    }
-
-    public int getWaterLim() {
-        return waterLim;
-    }
-
-    public int getFertLim() {
-        return fertLim;
-    }
-
-    public int getMinProduce() {
-        return minProduce;
-    }
-
-    public int getMaxProduce() {
-        return maxProduce;
-    }
-
-    public int getSellPrice() {
-        return sellPrice;
-    }
-
-    public float getExpYield() {
-        return expYield;
-    }
-
-    public boolean isWithered()
-    {
-        return harvestTime < age || (isMature() && !hasWaterNeeds());
-    }
-
-    public boolean isMature()
-    {
-        return getHarvestTime() == getAge();
-    }
-    public void growCrop()
-    {
-        setAge(getAge() + 1);
-    }
-
-    public void addWater()
-    {
-        setWaterTimes(getWaterTimes() + 1);
-    }
-
-    public void addFertilizer()
-    {
-        setFertTimes(getFertTimes() + 1);
-    }
-    public boolean hasWaterNeeds()
-    {
-        return getWaterTimes() >= getWaterNeed();
-    }
-
-    public boolean hasFertNeeds()
-    {
-        return getFertTimes() >= getFertNeed();
-    }
-
+    /**
+     * Initialize a crop type given the paramaters
+     * @param name is the name of the crop
+     * @param type is the type of the crop
+     * @param cost is the cost to buy a seed of the crop to plant
+     * @param harvestTime is the number of days needed to pass from the planting of the crop for it to be harvestable
+     * @param waterNeed is the number of times the crop needs to be watered before it can be harvestable
+     * @param fertNeed is the number of times the crop needs to be fertilized before it can be harvestable
+     * @param waterLim is the maximum number of times the crop can be watered for it to have an effect
+     * @param fertLim is the maximum number of times the crop can be fertilized for it to have an effect
+     * @param minProduce is the minimum yield number a crop can produce
+     * @param maxProduce is the maximum yield number a crop can produce
+     * @param sellPrice is the selling price of each unit the crop produces
+     * @param expYield is the EXP yield a crop yields upon harvesting it
+     */
     public Crop(String name, String type, int cost, int harvestTime, int waterNeed, int fertNeed, int waterLim, int fertLim, int minProduce, int maxProduce, int sellPrice, float expYield) {
         this.age = 0;
         this.waterTimes = 0;
@@ -145,5 +52,242 @@ public class Crop {
         this.maxProduce = maxProduce;
         this.sellPrice = sellPrice;
         this.expYield = expYield;
+    }
+
+    /**
+     * Instantiate a crop given the parameters of another existing crop
+     * @param crop is the crop whose parameters will be copied
+     */
+    public Crop(Crop crop)
+    {
+        this(
+                crop.getName(),
+                crop.getType(),
+                crop.getCost(),
+                crop.getHarvestTime(),
+                crop.getWaterNeed(),
+                crop.getFertNeed(),
+                crop.getWaterLim(),
+                crop.getFertLim(),
+                crop.getMinProduce(),
+                crop.getMaxProduce(),
+                crop.getSellPrice(),
+                crop.getExpYield()
+        );
+    }
+
+    /**
+     * Return the amount of times a crop has been watered
+     * @return the amount of times a crop has been watered
+     */
+    public int getWaterTimes() {
+        return waterTimes;
+    }
+
+    /**
+     * Return the amount of times a crop has been fertilized
+     * @return the amount of times a crop has been fertilized
+     */
+    public int getFertTimes() {
+        return fertTimes;
+    }
+
+    /**
+     * Return the name of the Crop
+     * @return the name of the Crop
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Return the type of the Crop
+     * @return the type of the Crop
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Return the cost of planting the Crop
+     * @return the cost of planting the Crop
+     */
+    public int getCost()
+    {
+        return cost;
+    }
+
+    /**
+     * Return the age of the Crop
+     * @return the age of the Crop
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * Return the harvest time of the Crop
+     * @return the harvest time of the Crop
+     */
+    public int getHarvestTime() {
+        return harvestTime;
+    }
+
+    /**
+     * Return the water requirement of the Crop
+     * @return the water requirement of the Crop
+     */
+    public int getWaterNeed() {
+        return waterNeed;
+    }
+
+    /**
+     * Return the fertilizer requirement of the Crop
+     * @return the fertilizer requirement of the Crop
+     */
+    public int getFertNeed() {
+        return fertNeed;
+    }
+
+    /**
+     * Return the water limit of the Crop
+     * @return the water limit of the Crop
+     */
+    public int getWaterLim() {
+        return waterLim;
+    }
+
+    /**
+     * Return the fertilizer limit of the Crop
+     * @return the fertilizer limit of the Crop
+     */
+    public int getFertLim() {
+        return fertLim;
+    }
+
+    /**
+     * Return the minimum possible yield of the Crop
+     * @return the minimum possible yield of the Crop
+     */
+    public int getMinProduce() {
+        return minProduce;
+    }
+
+    /**
+     * Return the maximum possible yield of the Crop
+     * @return the maximum possible yield of the Crop
+     */
+    public int getMaxProduce() {
+        return maxProduce;
+    }
+
+    /**
+     * Return the unit selling price of the Crop
+     * @return the unit selling price of the Crop
+     */
+    public int getSellPrice() {
+        return sellPrice;
+    }
+
+    /**
+     * Return the exp yield of the Crop
+     * @return the exp yield of the Crop
+     */
+    public float getExpYield() {
+        return expYield;
+    }
+
+    /**
+     * Set the amount of times the crop has been watered (Cannot be lower than 0 & greater than the water limit)
+     * @param waterTimes is the new amount of times the crop has been watered
+     */
+    public void setWaterTimes(int waterTimes) {
+        if(waterTimes >= 0 && waterTimes <= getWaterLim())
+            this.waterTimes = waterTimes;
+    }
+
+    /**
+     * Set the amount of times the crop has been fertilized (Cannot be lower than 0 & greater than the fertilizer limit)
+     * @param fertTimes is the new amount of times the crop has been fertilized
+     */
+    public void setFertTimes(int fertTimes) {
+        if(fertTimes >= 0 && fertTimes <= getFertLim())
+            this.fertTimes = fertTimes;
+    }
+
+    /**
+     * Set the age of the crop (Cannot be lower than 0)
+     * @param age is the new age of the crop
+     */
+    public void setAge(int age) {
+        if(age >= 0)
+            this.age = age;
+    }
+
+    /**
+     * Check if the crop has already withered (Water needs not met by maturity OR left for a day after its harvestTime)
+     * @return true is withered, false if not
+     */
+    public boolean isWithered()
+    {
+        return harvestTime < age || (isMature() && !hasWaterNeeds());
+    }
+
+    /**
+     * Check if the crop is ready for harvest (Crop has matured and has met the water needs)
+     * @return true if ready for harvest, false if not
+     */
+    public boolean isReadyForHarvest(){ return isMature() && hasWaterNeeds();}
+
+    /**
+     * Check if the crop is matured (HarvestTime is equal to its age)
+     * @return true if mature, false if not
+     */
+    public boolean isMature()
+    {
+        return getHarvestTime() == getAge();
+    }
+
+    /**
+     * Crop grows by incrementing age by 1
+     */
+    public void growCrop()
+    {
+        setAge(getAge() + 1);
+    }
+
+    /**
+     * Add water by incrementing the number of times the crop has been watered by 1 if possible
+     */
+    public void addWater()
+    {
+        setWaterTimes(getWaterTimes() + 1);
+    }
+
+    /**
+     * Add fertilizer by incrementing the number of times the crop has been fertilized by 1 if possible
+     */
+    public void addFertilizer()
+    {
+        setFertTimes(getFertTimes() + 1);
+    }
+
+    /**
+     * Check if the water needs of the crop has been met
+     * @return true if met, false if not
+     */
+    public boolean hasWaterNeeds()
+    {
+        return getWaterTimes() >= getWaterNeed();
+    }
+
+
+    /**
+     * Check if the fertilizer needs of the crop has been met
+     * @return true if met, false if not
+     */
+    public boolean hasFertNeeds()
+    {
+        return getFertTimes() >= getFertNeed();
     }
 }
