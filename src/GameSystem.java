@@ -60,7 +60,7 @@ public class GameSystem {
      * @param sc is the scanner object used
      * @return the name of the crop
      */
-    public static String selectCropName(Scanner sc)
+    private static String selectCropName(Scanner sc)
     {
         String selectedCropName = "";
         boolean isValidInput = false;
@@ -90,7 +90,7 @@ public class GameSystem {
      * @param cropName is the name of the crop
      * @return the Crop with the specified name
      */
-    public static Crop getCropTypeFromName(String cropName)
+    private static Crop getCropTypeFromName(String cropName)
     {
         for(int i = 0; i < cropTypes.size(); i++)
         {
@@ -104,7 +104,7 @@ public class GameSystem {
      * get the next available farmer type to the player
      * @return the farmer type after the current player's farmer type
      */
-    public static FarmerType getNextFarmerType()
+    private static FarmerType getNextFarmerType()
     {
         //Get the player's current farmer type's name
         String currFarmerTypeName = player.getFarmerType().getName();
@@ -121,7 +121,7 @@ public class GameSystem {
     /**
      * Show the seed store, containing the crop's information
      */
-    public static void showSeedStore()
+    private static void showSeedStore()
     {
         System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-SEED STORE-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         System.out.println(">> Name        |\tCrop Type   \t| Costs |  Maturity |\tWater Reqs\t|\tFert Reqs\t|\tYield Amount\t| SellPrice/Produce |\tEXP Gain\t|");
@@ -146,7 +146,7 @@ public class GameSystem {
     /**
      * Show the information for the first tile, containing its state and crop
      */
-    public static void showTileInfo()
+    private static void showTileInfo()
     {
         System.out.println("=-=-=CURRENT LAND INFO=-=-=");
         System.out.println("State: " + tileSet.get(0).getState());
@@ -167,7 +167,7 @@ public class GameSystem {
     /**
      * Show all of the information of all of the tools that the player can use.
      */
-    public static void showToolInfo()
+    private static void showToolInfo()
     {
         System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-TOOL INFO-=-=-=-=-=-=-=-=-=-=-=-=-=");
         System.out.println(">>    Name     |\tID\t|\tUse Cost\t|\t\tEXP Gain\t|");
@@ -184,7 +184,7 @@ public class GameSystem {
     /**
      * Show the player's information and statistics
      */
-    public static void showPlayerInfo()
+    private static void showPlayerInfo()
     {
         System.out.println("=-=-=-=PLAYER INFO=-=-=-=");
         System.out.println("Name: " + player.getName());

@@ -182,7 +182,7 @@ public class Player {
      * @param toolID is the ID of the tool to find
      * @return the index in the tools array where the tool is found (-1 if none)
      */
-    private int getToolByID(char toolID)
+        public int getToolByID(char toolID)
     {
         for(int i = 0; i < tools.size(); i++)
             if(tools.get(i).getID() == toolID)
