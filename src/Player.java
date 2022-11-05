@@ -254,6 +254,7 @@ public class Player {
             //Check if player has enough money to buy the crop
             if(cost <= objectCoins) {
                 tile.setCrop(crop); //Plant the crop
+                tile.setStateID(crop.getName().toUpperCase().charAt(0)); //Update tile state
                 spendObjectCoins(cost); //Spend the amount of coins it costs for the plant
 
                 System.out.println(name + " spends " + cost + " Objectcoins to plant a/n " + crop.getName() + " " + crop.getType() + "!");
@@ -274,7 +275,7 @@ public class Player {
         //Check first if tile is plowed
         char tileState = tile.getStateID();
 
-        if(tileState == '=')
+        if(tileState != '_')
         {
             //Is Plowed
 
@@ -294,7 +295,7 @@ public class Player {
                         int numProduce = rand.nextInt(tile.getCrop().getMinProduce(), tile.getCrop().getMaxProduce() + 1); //Yield of crop
 
                         //Bonuses
-                        float harvestBonus = tile.getCrop().getSellPrice() + farmerType.getBonusEarn() * numProduce;
+                        float harvestBonus = (tile.getCrop().getSellPrice() + farmerType.getBonusEarn()) * numProduce;
                         float waterBonus = numProduce * 0.2f * (tile.getCrop().getWaterTimes() - 1);
                         float fertBonus = numProduce * 0.5f * tile.getCrop().getFertTimes();
 
@@ -357,7 +358,7 @@ public class Player {
 
         useTool('s'); //Shovel will get used no matter what
 
-        if(tileState == '=' || tileState == '_') //Tile not a rock
+        if(tileState != '^') //Tile not a rock
         {
             tile.setStateID('_'); //Unplow Tile
 
@@ -382,7 +383,7 @@ public class Player {
         //Check first if the tile is plowed
         char tileState = tile.getStateID();
 
-        if(tileState == '=') {
+        if(tileState != '_') {
             //Is Plowed
 
 
@@ -413,7 +414,7 @@ public class Player {
         //Check first if the tile has a rock
         char tileState = tile.getStateID();
 
-        if(tileState == '=') { //Is plowed
+        if(tileState != '_') { //Is plowed
             if(tile.hasCrop()) { //has a crop
                 if(!tile.getCrop().isWithered()) { ///not withered
                     //Fertilize crop

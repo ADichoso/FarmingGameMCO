@@ -52,8 +52,7 @@ public class Tile {
          * StateID and State can only have these possible values
          * '_' = "not plowed"
          * 'p' = "plowed"
-         * 'c' = "crop
-         * 'r' = "rock"
+         * '^' = "rocky"
          * */
 
         //Set state & stateID
@@ -66,6 +65,30 @@ public class Tile {
                 break;
             case '^':
                 this.state = "rocky";
+                break;
+            case 'T':
+                this.state = "has turnip";
+                break;
+            case 'C':
+                this.state = "has carrot";
+                break;
+            case 'P':
+                this.state = "has potato";
+                break;
+            case 'R':
+                this.state = "has rose";
+                break;
+            case 't':
+                this.state = "has tulip";
+                break;
+            case 'S':
+                this.state = "has sunflower";
+                break;
+            case 'M':
+                this.state = "has mango";
+                break;
+            case 'A':
+                this.state = "has apple";
                 break;
         }
         this.stateID = stateID;
