@@ -53,6 +53,14 @@ public class Tile {
          * '_' = "not plowed"
          * 'p' = "plowed"
          * '^' = "rocky"
+         * 'T' = "has turnip"
+         * 'C' = "has carrot"
+         * 'P' = "has potato"
+         * 'R' = "has rose"
+         * 't' = "has tulip"
+         * 'S' = "has sunflower"
+         * 'M' = "has mango"
+         * 'A' = "has apple"
          * */
 
         //Set state & stateID
