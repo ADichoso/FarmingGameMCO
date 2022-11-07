@@ -53,14 +53,7 @@ public class Tile {
          * '_' = "not plowed"
          * 'p' = "plowed"
          * '^' = "rocky"
-         * 'T' = "has turnip"
-         * 'C' = "has carrot"
-         * 'P' = "has potato"
-         * 'R' = "has rose"
-         * 't' = "has tulip"
-         * 'S' = "has sunflower"
-         * 'M' = "has mango"
-         * 'A' = "has apple"
+         * 'c' = "has crop"
          * */
 
         //Set state & stateID
@@ -74,29 +67,8 @@ public class Tile {
             case '^':
                 this.state = "rocky";
                 break;
-            case 'T':
-                this.state = "has turnip";
-                break;
-            case 'C':
-                this.state = "has carrot";
-                break;
-            case 'P':
-                this.state = "has potato";
-                break;
-            case 'R':
-                this.state = "has rose";
-                break;
-            case 't':
-                this.state = "has tulip";
-                break;
-            case 'S':
-                this.state = "has sunflower";
-                break;
-            case 'M':
-                this.state = "has mango";
-                break;
-            case 'A':
-                this.state = "has apple";
+            case 'c':
+                this.state = "has crop";
                 break;
         }
         this.stateID = stateID;

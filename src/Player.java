@@ -254,7 +254,7 @@ public class Player {
             //Check if player has enough money to buy the crop
             if(cost <= objectCoins) {
                 tile.setCrop(crop); //Plant the crop
-                tile.setStateID(crop.getName().toUpperCase().charAt(0)); //Update tile state
+                tile.setStateID('c'); //Update tile state
                 spendObjectCoins(cost); //Spend the amount of coins it costs for the plant
 
                 System.out.println(name + " spends " + cost + " Objectcoins to plant a/n " + crop.getName() + " " + crop.getType() + "!");
