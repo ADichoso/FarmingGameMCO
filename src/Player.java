@@ -223,10 +223,10 @@ public class Player {
         char tileState = tile.getStateID();
 
         //Tile is not yet plowed, nor does it have a rock
-        if(tileState == '_')
+        if(tileState == Tile.NOT_PLOWED)
         {
             useTool('p');
-            tile.setStateID('='); //Plowed Tile
+            tile.setStateID(Tile.PLOWED); //Plowed Tile
         }
         else
             System.out.println("Whoops! Looks like you cannot plow on that tile!");
@@ -248,13 +248,13 @@ public class Player {
             cost = 0;
 
 
-        if(tileState == '=') {
+        if(tileState == Tile.PLOWED) {
             //Is Plowed
 
             //Check if player has enough money to buy the crop
             if(cost <= objectCoins) {
                 tile.setCrop(crop); //Plant the crop
-                tile.setStateID('c'); //Update tile state
+                tile.setStateID(Tile.HAS_CROP); //Update tile state
                 spendObjectCoins(cost); //Spend the amount of coins it costs for the plant
 
                 System.out.println(name + " spends " + cost + " Objectcoins to plant a/n " + crop.getName() + " " + crop.getType() + "!");
@@ -272,60 +272,47 @@ public class Player {
      */
     public void harvestCrop(Tile tile)
     {
-        //Check first if tile is plowed
-        char tileState = tile.getStateID();
-
-        if(tileState != '_')
+        //Check if tile has a crop
+        if(tile.hasCrop())
         {
-            //Is Plowed
+            //Check if tile's crop is not withered
+            if(!tile.getCrop().isWithered()) {
 
-            //Check if tile has a crop
-            if(tile.getCrop() != null)
-            {
+                //Check if crop is ready for harvest
+                if (tile.getCrop().isReadyForHarvest()) {
+                    //Sell the crop
+                    Random rand = new Random();
+                    int numProduce = rand.nextInt(tile.getCrop().getMinProduce(), tile.getCrop().getMaxProduce() + 1); //Yield of crop
 
-                //Check if tile's crop is not withered
-                if(!tile.getCrop().isWithered()) {
+                    //Bonuses
+                    float harvestBonus = (tile.getCrop().getSellPrice() + farmerType.getBonusEarn()) * numProduce;
+                    float waterBonus = numProduce * 0.2f * (tile.getCrop().getWaterTimes() - 1);
+                    float fertBonus = numProduce * 0.5f * tile.getCrop().getFertTimes();
 
-                    //Check if crop is ready for harvest
-                    if (tile.getCrop().isReadyForHarvest()) {
+                    //Show and get earnings
+                    int earnings = (int) (harvestBonus + waterBonus + fertBonus);
+                    System.out.println(name + " harvested " + numProduce + " " + tile.getCrop().getName() + "/s!");
+                    System.out.println(name + " has earned " + earnings + " Objectcoins!");
+                    gainObjectCoins(earnings);
 
-
-                        //Sell the crop
-                        Random rand = new Random();
-                        int numProduce = rand.nextInt(tile.getCrop().getMinProduce(), tile.getCrop().getMaxProduce() + 1); //Yield of crop
-
-                        //Bonuses
-                        float harvestBonus = (tile.getCrop().getSellPrice() + farmerType.getBonusEarn()) * numProduce;
-                        float waterBonus = numProduce * 0.2f * (tile.getCrop().getWaterTimes() - 1);
-                        float fertBonus = numProduce * 0.5f * tile.getCrop().getFertTimes();
-
-                        //Show and get earnings
-                        int earnings = (int) (harvestBonus + waterBonus + fertBonus);
-                        System.out.println(name + " harvested " + numProduce + " " + tile.getCrop().getName() + "/s!");
-                        System.out.println(name + " has earned " + earnings + " Objectcoins!");
-                        gainObjectCoins(earnings);
-
-                        //Show and get EXP
-                        float expGain = tile.getCrop().getExpYield();
-                        System.out.println(name + " has gained " + expGain + " EXP!");
-                        gainExperience(expGain);
+                    //Show and get EXP
+                    float expGain = tile.getCrop().getExpYield();
+                    System.out.println(name + " has gained " + expGain + " EXP!");
+                    gainExperience(expGain);
 
 
-                        //Remove the crop
-                        tile.setCrop(null);
-                        tile.setStateID('_');
-                    }
-                    else
-                        System.out.println("Whoops! Looks like the crop is not yet ready for harvest!");
+                    //Remove the crop
+                    tile.setCrop(null);
+                    tile.setStateID(Tile.NOT_PLOWED);
                 }
                 else
-                    System.out.println("Whoops! Looks like that crop is already withered!");
+                    System.out.println("Whoops! Looks like the crop is not yet ready for harvest!");
             }
             else
-                System.out.println("Whoops! Looks like that tile does not have a crop!");
+                System.out.println("Whoops! Looks like that crop is already withered!");
         }
         else
-            System.out.println("Whoops! Looks like that tile is not plowed!");
+            System.out.println("Whoops! Looks like that tile does not have a crop!");
     }
 
     /**
@@ -337,11 +324,11 @@ public class Player {
         //Check first if the tile has a rock
         char tileState = tile.getStateID();
 
-        if(tileState == '^')
+        if(tileState == Tile.ROCKY)
         {
             //Has rock
             useTool('x');
-            tile.setStateID('_'); //Unplowed Tile
+            tile.setStateID(Tile.NOT_PLOWED); //Unplowed Tile
             System.out.println(name + " has removed a rock!");
         } else
             System.out.println("Whoops! Looks like there's no rock on that tile!");
@@ -358,9 +345,9 @@ public class Player {
 
         useTool('s'); //Shovel will get used no matter what
 
-        if(tileState != '^') //Tile not a rock
+        if(tileState != Tile.ROCKY) //Tile not a rock
         {
-            tile.setStateID('_'); //Unplow Tile
+            tile.setStateID(Tile.NOT_PLOWED); //Unplow Tile
 
             //Remove the crop, if available
             if(tile.hasCrop()) {
@@ -373,7 +360,6 @@ public class Player {
             System.out.println("You used your shovel! That did nothing!"); //Tile is a rock
     }
 
-
     /**
      * try to water a tile
      * @param tile is the tile to water
@@ -383,7 +369,7 @@ public class Player {
         //Check first if the tile is plowed
         char tileState = tile.getStateID();
 
-        if(tileState != '_') {
+        if(tileState != Tile.PLOWED) {
             //Is Plowed
 
 
@@ -414,7 +400,7 @@ public class Player {
         //Check first if the tile has a rock
         char tileState = tile.getStateID();
 
-        if(tileState != '_') { //Is plowed
+        if(tileState != Tile.PLOWED) { //Is plowed
             if(tile.hasCrop()) { //has a crop
                 if(!tile.getCrop().isWithered()) { ///not withered
                     //Fertilize crop

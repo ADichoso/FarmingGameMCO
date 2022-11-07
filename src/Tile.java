@@ -4,6 +4,11 @@
  * @since 01/11/2022
  */
 public class Tile {
+    public static final char PLOWED = '=';
+    public static final char NOT_PLOWED = '_';
+    public static final char ROCKY = '^';
+    public static final char HAS_CROP = 'c';
+
     private String state;
     private char stateID;
     private Crop crop;

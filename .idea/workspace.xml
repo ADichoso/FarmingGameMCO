@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Fixed Bugs.&#10;1. Crops used to be able to remove their withered status by watering on the day of harvest. Now no longer possible&#10;&#10;Added Documentation">
+    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Updated methods visibility between classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tool.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667313350266</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Updated methods visibility between classes">
+      <created>1667315866560</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1667315866560</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -114,7 +122,8 @@
     <MESSAGE value="Fixed Bugs&#10;Fixed Player Functions&#10;Added GUI" />
     <MESSAGE value="Fixed Bugs&#10;Fixed Player Functions&#10;Added Game Functionality (Player Farmer types affect costs and limits on actions)&#10;Harvest and Planting loops now work&#10;Added GUI" />
     <MESSAGE value="Fixed Bugs.&#10;1. Crops used to be able to remove their withered status by watering on the day of harvest. Now no longer possible&#10;&#10;Added Documentation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Bugs.&#10;1. Crops used to be able to remove their withered status by watering on the day of harvest. Now no longer possible&#10;&#10;Added Documentation" />
+    <MESSAGE value="Updated methods visibility between classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated methods visibility between classes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

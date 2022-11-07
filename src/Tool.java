@@ -58,8 +58,6 @@ public class Tool {
     public float getExpGain() {
         return expGain;
     }
-
-
 }
 
 
