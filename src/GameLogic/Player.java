@@ -1,7 +1,11 @@
+package GameLogic;
+
+import GUI.Tile;
+
 import java.util.ArrayList;
 import java.util.Random;
 
-/** Player class which acts as a farmer for the farming game
+/** GameLogic.Player class which acts as a farmer for the farming game
  * @author Aaron Dichoso & Andrei Martin
  * @version 2.1
  * @since 01/11/2022
@@ -220,13 +224,13 @@ public class Player {
     {
         //If tile is not yet plowed & does not have a rock on it, plow the tile.
 
-        char tileState = tile.getStateID();
+        int tileState = tile.getStateID();
 
-        //Tile is not yet plowed, nor does it have a rock
+        //GUI.Tile is not yet plowed, nor does it have a rock
         if(tileState == Tile.NOT_PLOWED)
         {
             useTool('p');
-            tile.setStateID(Tile.PLOWED); //Plowed Tile
+            tile.setStateID(Tile.PLOWED); //Plowed GUI.Tile
         }
         else
             System.out.println("Whoops! Looks like you cannot plow on that tile!");
@@ -240,7 +244,7 @@ public class Player {
     public void plantCrop(Tile tile, Crop crop)
     {
         //Check first if the tile is plowed
-        char tileState = tile.getStateID();
+        int tileState = tile.getStateID();
 
         int cost = crop.getCost() - farmerType.getSeedCostReduct(); //Get the cost of the crop
 
@@ -322,13 +326,13 @@ public class Player {
     public void removeRock(Tile tile)
     {
         //Check first if the tile has a rock
-        char tileState = tile.getStateID();
+        int tileState = tile.getStateID();
 
         if(tileState == Tile.ROCKY)
         {
             //Has rock
             useTool('x');
-            tile.setStateID(Tile.NOT_PLOWED); //Unplowed Tile
+            tile.setStateID(Tile.NOT_PLOWED); //Unplowed GUI.Tile
             System.out.println(name + " has removed a rock!");
         } else
             System.out.println("Whoops! Looks like there's no rock on that tile!");
@@ -341,13 +345,13 @@ public class Player {
     public void useShovel(Tile tile)
     {
         //You can use the shovel in any tile
-        char tileState = tile.getStateID();
+        int tileState = tile.getStateID();
 
         useTool('s'); //Shovel will get used no matter what
 
-        if(tileState != Tile.ROCKY) //Tile not a rock
+        if(tileState != Tile.ROCKY) //GUI.Tile not a rock
         {
-            tile.setStateID(Tile.NOT_PLOWED); //Unplow Tile
+            tile.setStateID(Tile.NOT_PLOWED); //Unplow GUI.Tile
 
             //Remove the crop, if available
             if(tile.hasCrop()) {
@@ -357,7 +361,7 @@ public class Player {
             else
                 System.out.println("The ground's water and fertilizer is gone!");
         } else
-            System.out.println("You used your shovel! That did nothing!"); //Tile is a rock
+            System.out.println("You used your shovel! That did nothing!"); //GUI.Tile is a rock
     }
 
     /**
@@ -367,7 +371,7 @@ public class Player {
     public void waterLand(Tile tile)
     {
         //Check first if the tile is plowed
-        char tileState = tile.getStateID();
+        int tileState = tile.getStateID();
 
         if(tileState != Tile.PLOWED) {
             //Is Plowed
@@ -398,7 +402,7 @@ public class Player {
     public void fertilizeLand(Tile tile)
     {
         //Check first if the tile has a rock
-        char tileState = tile.getStateID();
+        int tileState = tile.getStateID();
 
         if(tileState != Tile.PLOWED) { //Is plowed
             if(tile.hasCrop()) { //has a crop
@@ -420,11 +424,11 @@ public class Player {
 
     /**
      * Advance the player's crop type to the next level
-     * @param newFarmerType is the new FarmerType of the player
+     * @param newFarmerType is the new GameLogic.FarmerType of the player
      */
     public void advanceFarmerType(FarmerType newFarmerType)
     {
-        //Check if player still has a next Farmer Type (not max FarmerType)
+        //Check if player still has a next Farmer Type (not max GameLogic.FarmerType)
         if(!newFarmerType.equals(null)) {
             //Check if player has enough levels to advance
             if (newFarmerType.getLevelReq() == getLevel()) {

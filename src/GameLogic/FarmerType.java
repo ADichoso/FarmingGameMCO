@@ -1,6 +1,8 @@
+package GameLogic;
+
 import java.util.Objects;
 
-/** FarmerType class which defines the different perks of farmer registration in the game
+/** GameLogic.FarmerType class which defines the different perks of farmer registration in the game
  * @author Aaron Dichoso & Andrei Martin
  * @version 2.1
  * @since 01/11/2022
@@ -36,8 +38,8 @@ public class FarmerType {
     }
 
     /**
-     * Return the name of the FarmerType
-     * @return the name of the FarmerType
+     * Return the name of the GameLogic.FarmerType
+     * @return the name of the GameLogic.FarmerType
      */
     public String getName() {
         return name;
@@ -45,48 +47,48 @@ public class FarmerType {
 
 
     /**
-     * Return the Level Requirement of the FarmerType
-     * @return the Level Requirement of the FarmerType
+     * Return the Level Requirement of the GameLogic.FarmerType
+     * @return the Level Requirement of the GameLogic.FarmerType
      */
     public int getLevelReq() {
         return levelReq;
     }
 
     /**
-     * Return the Bonus Earnings received from the FarmerType
-     * @return the Bonus Earnings received from of the FarmerType
+     * Return the Bonus Earnings received from the GameLogic.FarmerType
+     * @return the Bonus Earnings received from of the GameLogic.FarmerType
      */
     public int getBonusEarn() {
         return bonusEarn;
     }
 
     /**
-     * Return the Seed Cost Reduction of the FarmerType
-     * @return the Seed Cost Reduction of the FarmerType
+     * Return the Seed Cost Reduction of the GameLogic.FarmerType
+     * @return the Seed Cost Reduction of the GameLogic.FarmerType
      */
     public int getSeedCostReduct() {
         return seedCostReduct;
     }
 
     /**
-     * Return the Water Limit Bonus Increase of the FarmerType
-     * @return the Water Limit Bonus Increase of the FarmerType
+     * Return the Water Limit Bonus Increase of the GameLogic.FarmerType
+     * @return the Water Limit Bonus Increase of the GameLogic.FarmerType
      */
     public int getWaterBonusLimInc() {
         return waterBonusLimInc;
     }
 
     /**
-     * Return the Fertilizer Limit Bonus Increase of the FarmerType
-     * @return the Fertilizer Limit Bonus Increase of the FarmerType
+     * Return the Fertilizer Limit Bonus Increase of the GameLogic.FarmerType
+     * @return the Fertilizer Limit Bonus Increase of the GameLogic.FarmerType
      */
     public int getFertBonusLimInc() {
         return fertBonusLimInc;
     }
 
     /**
-     * Return the registration fee for the FarmerType
-     * @return the v the FarmerType
+     * Return the registration fee for the GameLogic.FarmerType
+     * @return the v the GameLogic.FarmerType
      */
     public int getRegFee() {
         return regFee;

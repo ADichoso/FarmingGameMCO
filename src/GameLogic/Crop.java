@@ -1,4 +1,6 @@
-/** Crop class which defines the attributes that each crop contains
+package GameLogic;
+
+/** GameLogic.Crop class which defines the attributes that each crop contains
  * @author Aaron Dichoso & Andrei Martin
  * @version 1.1
  * @since 24/10/2022
@@ -52,6 +54,9 @@ public class Crop {
         this.maxProduce = maxProduce;
         this.sellPrice = sellPrice;
         this.expYield = expYield;
+
+        System.out.println("Crop with name " + this.name + " is created.");
+        System.out.println("REMINDER: will require an associated picture file of " + this.name + ".png to be created and placed inside GUI/Crops folder");
     }
 
     /**
@@ -76,6 +81,24 @@ public class Crop {
         );
     }
 
+    public Crop()
+    {
+        this(
+                "null",
+                "null",
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+        );
+    }
+
     /**
      * Return the amount of times a crop has been watered
      * @return the amount of times a crop has been watered
@@ -93,24 +116,24 @@ public class Crop {
     }
 
     /**
-     * Return the name of the Crop
-     * @return the name of the Crop
+     * Return the name of the GameLogic.Crop
+     * @return the name of the GameLogic.Crop
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Return the type of the Crop
-     * @return the type of the Crop
+     * Return the type of the GameLogic.Crop
+     * @return the type of the GameLogic.Crop
      */
     public String getType() {
         return type;
     }
 
     /**
-     * Return the cost of planting the Crop
-     * @return the cost of planting the Crop
+     * Return the cost of planting the GameLogic.Crop
+     * @return the cost of planting the GameLogic.Crop
      */
     public int getCost()
     {
@@ -118,80 +141,80 @@ public class Crop {
     }
 
     /**
-     * Return the age of the Crop
-     * @return the age of the Crop
+     * Return the age of the GameLogic.Crop
+     * @return the age of the GameLogic.Crop
      */
     public int getAge() {
         return age;
     }
 
     /**
-     * Return the harvest time of the Crop
-     * @return the harvest time of the Crop
+     * Return the harvest time of the GameLogic.Crop
+     * @return the harvest time of the GameLogic.Crop
      */
     public int getHarvestTime() {
         return harvestTime;
     }
 
     /**
-     * Return the water requirement of the Crop
-     * @return the water requirement of the Crop
+     * Return the water requirement of the GameLogic.Crop
+     * @return the water requirement of the GameLogic.Crop
      */
     public int getWaterNeed() {
         return waterNeed;
     }
 
     /**
-     * Return the fertilizer requirement of the Crop
-     * @return the fertilizer requirement of the Crop
+     * Return the fertilizer requirement of the GameLogic.Crop
+     * @return the fertilizer requirement of the GameLogic.Crop
      */
     public int getFertNeed() {
         return fertNeed;
     }
 
     /**
-     * Return the water limit of the Crop
-     * @return the water limit of the Crop
+     * Return the water limit of the GameLogic.Crop
+     * @return the water limit of the GameLogic.Crop
      */
     public int getWaterLim() {
         return waterLim;
     }
 
     /**
-     * Return the fertilizer limit of the Crop
-     * @return the fertilizer limit of the Crop
+     * Return the fertilizer limit of the GameLogic.Crop
+     * @return the fertilizer limit of the GameLogic.Crop
      */
     public int getFertLim() {
         return fertLim;
     }
 
     /**
-     * Return the minimum possible yield of the Crop
-     * @return the minimum possible yield of the Crop
+     * Return the minimum possible yield of the GameLogic.Crop
+     * @return the minimum possible yield of the GameLogic.Crop
      */
     public int getMinProduce() {
         return minProduce;
     }
 
     /**
-     * Return the maximum possible yield of the Crop
-     * @return the maximum possible yield of the Crop
+     * Return the maximum possible yield of the GameLogic.Crop
+     * @return the maximum possible yield of the GameLogic.Crop
      */
     public int getMaxProduce() {
         return maxProduce;
     }
 
     /**
-     * Return the unit selling price of the Crop
-     * @return the unit selling price of the Crop
+     * Return the unit selling price of the GameLogic.Crop
+     * @return the unit selling price of the GameLogic.Crop
      */
     public int getSellPrice() {
         return sellPrice;
     }
 
     /**
-     * Return the exp yield of the Crop
-     * @return the exp yield of the Crop
+     * Return the exp yield of the GameLogic.Crop
+     * @return the exp yield of the GameLogic.Crop
      */
     public float getExpYield() {
         return expYield;
@@ -234,7 +257,7 @@ public class Crop {
     }
 
     /**
-     * Check if the crop is ready for harvest (Crop has matured and has met the water needs)
+     * Check if the crop is ready for harvest (GameLogic.Crop has matured and has met the water needs)
      * @return true if ready for harvest, false if not
      */
     public boolean isReadyForHarvest(){ return isMature() && hasWaterNeeds();}
@@ -249,7 +272,7 @@ public class Crop {
     }
 
     /**
-     * Crop grows by incrementing age by 1
+     * GameLogic.Crop grows by incrementing age by 1
      */
     public void growCrop()
     {
@@ -290,4 +313,8 @@ public class Crop {
     {
         return getFertTimes() >= getFertNeed();
     }
+
+    public boolean isNullCrop(){return name.equals("null");}
+
+    public String getCropIconFileName() {return String.format("Crops/%s.png", getName());}
 }

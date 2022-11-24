@@ -1,3 +1,5 @@
+package GameLogic;
+
 /** Class used to define the information of the tools that the player uses
  * @author Aaron Dichoso & Andrei Martin
  * @version 2.1
