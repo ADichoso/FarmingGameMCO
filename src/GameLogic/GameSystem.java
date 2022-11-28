@@ -12,17 +12,53 @@ import java.util.ArrayList;
  */
 public class GameSystem {
     private static int currDay = 1;
-
     private static final int WIDTH = 10;
     private static final int HEIGHT = 5;
     private static ArrayList<FarmerType> farmerTypes;
     private static ArrayList<Crop> cropTypes;
     private static Player player;
+    private static Tile selectedTile;
+    private static Crop selectedCrop;
     private static Renderer renderer;
 
+    public static int getCurrDay() {
+        return currDay;
+    }
 
-    public static void incrementDay() {currDay++;}
+    public static ArrayList<FarmerType> getFarmerTypes() {
+        return farmerTypes;
+    }
 
+    public static ArrayList<Crop> getCropTypes() {
+        return cropTypes;
+    }
+
+    public static Tile getSelectedTile() {
+        return selectedTile;
+    }
+
+    public static Crop getSelectedCrop() {
+        return selectedCrop;
+    }
+
+    public static Renderer getRenderer() {
+        return renderer;
+    }
+
+    public static void selectTile(Tile tile)
+    {
+        selectedTile = tile;
+    }
+
+    public static void selectCrop(String cropName)
+    {
+        for(Crop crop : cropTypes)
+            if(crop.getName().equals(cropName))
+                selectedCrop = crop;
+    }
+    public static Player getPlayer() {
+        return player;
+    }
     /**
      * Initialize the farmer types that the player can register to
      */
@@ -41,17 +77,16 @@ public class GameSystem {
     private static void initializeCropTypes()
     {
         cropTypes = new ArrayList<Crop>();
-        cropTypes.add(new Crop("Turnip", "Root Crop", 5, 2, 1, 0, 2, 1, 1, 2, 6, 5f));
-        cropTypes.add(new Crop("Carrot", "Root Crop", 10,3, 1, 0, 2, 1, 1, 2, 9, 7.5f));
-        cropTypes.add(new Crop("Potato", "Root Crop", 20, 5, 3, 1, 4, 1, 1, 10, 3, 12.5f));
-        cropTypes.add(new Crop("Rose", "Flower", 5, 1, 1, 0, 2, 1, 1, 1, 5, 2.5f));
-        cropTypes.add(new Crop("Tulip", "Flower", 10,2, 2, 0, 3, 1, 1, 1, 9, 5f));
-        cropTypes.add(new Crop("Sunflower", "Flower", 20, 3, 2, 1, 3, 2, 1, 1, 19, 7.5f));
-        cropTypes.add(new Crop("Mango", "Fruit Tree", 100,10, 7, 4, 7, 4, 5, 15, 8, 25f));
-        cropTypes.add(new Crop("Apple", "Fruit Tree", 200, 10, 7, 5, 7, 5, 10, 15, 5, 25f));
+        cropTypes.add(new Crop("Turnip", Crop.ROOT_CROP_TYPE, 5, 2, 1, 0, 2, 1, 1, 2, 6, 5f));
+        cropTypes.add(new Crop("Carrot", Crop.ROOT_CROP_TYPE, 10,3, 1, 0, 2, 1, 1, 2, 9, 7.5f));
+        cropTypes.add(new Crop("Potato", Crop.ROOT_CROP_TYPE, 20, 5, 3, 1, 4, 1, 1, 10, 3, 12.5f));
+        cropTypes.add(new Crop("Rose", Crop.FLOWER_CROP_TYPE, 5, 1, 1, 0, 2, 1, 1, 1, 5, 2.5f));
+        cropTypes.add(new Crop("Tulip", Crop.FLOWER_CROP_TYPE, 10,2, 2, 0, 3, 1, 1, 1, 9, 5f));
+        cropTypes.add(new Crop("Sunflower", Crop.FLOWER_CROP_TYPE, 20, 3, 2, 1, 3, 2, 1, 1, 19, 7.5f));
+        cropTypes.add(new Crop("Mango", Crop.FRUIT_TREE_CROP_TYPE, 100,10, 7, 4, 7, 4, 5, 15, 8, 25f));
+        cropTypes.add(new Crop("Apple", Crop.FRUIT_TREE_CROP_TYPE, 200, 10, 7, 5, 7, 5, 10, 15, 5, 25f));
+        selectCrop(cropTypes.get(0).getName());
     }
-
-
     /**
      * Get a specified crop given its name
      * @param cropName is the name of the crop
@@ -97,11 +132,10 @@ public class GameSystem {
                     currCrop.getName(),
                     currCrop.getType(),
                     String.valueOf(currCrop.getCost() - player.getFarmerType().getSeedCostReduct()),
-                    String.valueOf(currCrop.getHarvestTime()), String.valueOf(currCrop.getWaterNeed()),
-                    String.valueOf(currCrop.getWaterLim() + player.getFarmerType().getWaterBonusLimInc()),
+                    String.valueOf(currCrop.getHarvestTime()),
+                    String.valueOf(currCrop.getWaterNeed()),
                     String.valueOf(currCrop.getFertNeed()),
-                    String.valueOf(currCrop.getFertLim() + player.getFarmerType().getFertBonusLimInc()),
-                    String.valueOf(currCrop.getMinProduce()), String.valueOf(currCrop.getMaxProduce()),
+                    currCrop.getMinProduce() + "-" + currCrop.getMaxProduce(),
                     String.valueOf(currCrop.getSellPrice() + player.getFarmerType().getBonusEarn()),
                     String.valueOf(currCrop.getExpYield())
             };
@@ -119,10 +153,33 @@ public class GameSystem {
             }
         }
 
-
         return seedStore;
     }
 
+    public static String[] getCurrentFarmerTypeInfo()
+    {
+        return getFarmerTypeInfo(player.getFarmerType());
+    }
+
+    public static String[] getNextFarmerTypeInfo()
+    {
+        return getFarmerTypeInfo(getNextFarmerType());
+    }
+
+    private static String[] getFarmerTypeInfo(FarmerType farmerType)
+    {
+        String[] farmerTypeInfo =
+                {
+                    "<html>" + farmerType.getName() + "- on Level " + farmerType.getLevelReq() + "</html>",
+                    "<html>Earns " + farmerType.getBonusEarn() + " bonus<br>Objectcoins per produce</html>",
+                    "<html>Can water crops<br>" + farmerType.getWaterBonusLimInc() + " extra time/s!</html>",
+                    "<html>Can fertilize crops<br>" + farmerType.getFertBonusLimInc() + " extra time/s!</html>",
+                    "<html>All seeds are now<br>" + farmerType.getSeedCostReduct() + " Objectcoins cheaper!</html>",
+                    "<html>Registration Fee:<br>" + farmerType.getRegFee() + " Objectcoins</html>"
+                };
+
+        return  farmerTypeInfo;
+    }
     private static String[] getSeedColumns()
     {
         String[] seedColumns = {"Name","Crop Type","Costs","Maturity","Water Requirements","Fert Requirements","Yield Amount","Sell Price per Produce","EXP Gain"};
@@ -190,6 +247,107 @@ public class GameSystem {
         return playerInfo;
     }
 
+    public static String onPlow()
+    {
+        String message = player.plowTile(selectedTile);
+        updateValues();
+
+        return message;
+    }
+
+    public static String onShovel() {
+        String message = player.useShovel(selectedTile);
+        updateValues();
+
+        return message;
+    }
+
+    public static String onPickaxe() {
+        String message = player.removeRock(selectedTile);
+        updateValues();
+
+        return message;
+    }
+
+    public static String onPlant() {
+        String message = player.plantCrop(selectedTile, selectedCrop);
+        updateValues();
+        return message;
+    }
+
+    public static String onWater() {
+        String message = player.waterLand(selectedTile);
+        updateValues();
+
+        return message;
+    }
+
+    public static String onFert() {
+        String message = player.fertilizeLand(selectedTile);
+        updateValues();
+        return message;
+    }
+
+    public static String onHarvest() {
+        String message = player.harvestCrop(selectedTile);
+        updateValues();
+        return message;
+    }
+
+    public static String advancePlayerFarmerType()
+    {
+        String message = player.advanceFarmerType(getNextFarmerType());
+        updateValues();
+        return message;
+    }
+
+    public static void nextDay()
+    {
+        currDay++;
+        renderer.advanceDay(currDay);
+        updateValues();
+
+
+    }
+    private static String isGameOver()
+    {
+        /*End Game Conditions:
+        1. Does not have any planted crops & does not have enough money to buy more seeds OR
+        2. All tiles contain withered crops
+         */
+
+        int lowestSeedPrice = getLowestSeedPrice();
+
+        if(!renderer.hasPlantedCrops() && player.getObjectCoins() < lowestSeedPrice)
+            return "GAME OVER! You ran out of money to plant crops!";
+        else if (renderer.isAllTilesWithered())
+            return "GAME OVER! Due to your carelessness, all your crops died!";
+
+        return "";
+    }
+
+    private static int getLowestSeedPrice()
+    {
+        int lowestSeedPrice = cropTypes.get(0).getCost();
+        for(int i = 0; i < cropTypes.size(); i++)
+            if(lowestSeedPrice > cropTypes.get(i).getCost())
+                lowestSeedPrice = cropTypes.get(i).getCost();
+
+        System.out.println("Lowest seed price is " + lowestSeedPrice);
+        return lowestSeedPrice;
+    }
+
+    public static void updateValues()
+    {
+        renderer.updatePlayerStats(getPlayerInfo());
+        renderer.initializeSeedStore(getSeedStore(), getSeedColumns());
+        renderer.updateSelectedTileInfo(selectedTile);
+
+        String gameOverMessage = isGameOver();
+        if(!gameOverMessage.equals(""))
+            renderer.showEndGameScreen(gameOverMessage);
+    }
+
     /**
      * Starts the game
      * @param playerName is the name of the player
@@ -202,14 +360,15 @@ public class GameSystem {
 
     public static void resetGame()
     {
-        currDay = 1;
+        player = new Player(player.getName(), farmerTypes.get(0));
+        quitGame();
     }
 
-    public static void updateValues()
+    public static void quitGame()
     {
-        renderer.updatePlayerStats(getPlayerInfo());
-        renderer.initializeSeedStore(getSeedStore(), getSeedColumns());
-        renderer.advanceDay(currDay);
+        currDay = 1;
+        renderer.resetGameFrames(WIDTH, HEIGHT);
+        updateValues();
     }
 
     public static void main(String[] args) {
@@ -219,114 +378,3 @@ public class GameSystem {
         renderer = new Renderer(WIDTH, HEIGHT);
     }
 }
-    /*
-    private static void showLandActions(Scanner sc)
-    {
-        boolean backGame = false;
-        do {
-            System.out.println();
-            System.out.println("=-=-=Land Actions=-=-=");
-            System.out.println("Check Land: check");
-            System.out.println("Plow Land: plow");
-            System.out.println("Plant Seeds: plant");
-            System.out.println("Remove Rock: mine");
-            System.out.println("Use Shovel: dig");
-            System.out.println("Water Land: water");
-            System.out.println("Fertilize Land: fertilize");
-            System.out.println("Harvest crop: harvest");
-            System.out.println("Back to Actions: back");
-            String userInput = sc.nextLine();
-
-            System.out.println("");
-            switch (userInput.toLowerCase()) {
-                case "check":
-                    showTileInfo();
-                    break;
-                case "plow":
-                    System.out.println("=-=-=Trying to Plow Land=-=-=");
-                    player.plowTile(tileSet.get(0));
-                    break;
-                case "plant":
-                    System.out.println("=-=-=Trying to Plant=-=-=");
-                    Crop crop = getCropTypeFromName(selectCropName(sc));
-                    player.plantCrop(tileSet.get(0), crop);
-                    break;
-                case "mine":
-                    System.out.println("=-=-=Trying to Mine=-=-=");
-                    player.removeRock(tileSet.get(0));
-                    break;
-                case "dig":
-                    System.out.println("=-=-=Trying to Dig=-=-=");
-                    player.useShovel(tileSet.get(0));
-                    break;
-                case "water":
-                    System.out.println("=-=-=Trying to Water=-=-=");
-                    player.waterLand(tileSet.get(0));
-                    break;
-                case "fertilize":
-                    System.out.println("=-=-=Trying to Fertilize=-=-=");
-                    player.fertilizeLand(tileSet.get(0));
-                    break;
-                case "harvest":
-                    System.out.println("=-=-=Trying to Harvest=-=-=");
-                    player.harvestCrop(tileSet.get(0));
-                    break;
-                case "back":
-                    System.out.println("=-=-=Going Back to Options=-=-=");
-                    backGame = true;
-                    break;
-                default:
-                    System.out.println("INVALID INPUT!!! Please Try Again!");
-                    break;
-            }
-            System.out.println("");
-        }while(!backGame);
-    }
-    private static void showActions(Scanner sc)
-    {
-        boolean quitGame = false;
-        do {
-            System.out.println("Day " + currDay + ". What would you like to do?");
-            System.out.println("Perform Action -> Land: land");
-            System.out.println("Check Seeds Store: store");
-            System.out.println("Register Farmer Type: register");
-            System.out.println("Check Tools: tool");
-            System.out.println("Check Stats: stat");
-            System.out.println("Go to Sleep: sleep");
-            System.out.println("Quit Game: quit");
-            String userInput = sc.nextLine();
-
-
-            System.out.println("");
-            switch (userInput.toLowerCase()) {
-                case "land":
-                    showLandActions(sc);
-                    break;
-                case "store":
-                    showSeedStore();
-                    break;
-                case "register":
-                    player.advanceFarmerType(getNextFarmerType());
-                    break;
-                case "tool":
-                    showToolInfo();
-                    break;
-                case "stat":
-                    showPlayerInfo();
-                    break;
-                case "sleep":
-                    System.out.println("=-=-=Going To Sleep=-=-=");
-                    advanceDay();
-                    break;
-                case "quit":
-                    System.out.println("=-=-=Quitting Game=-=-=");
-                    quitGame = true;
-                    break;
-                default:
-                    System.out.println("INVALID INPUT!! Please Try Again!");
-                    break;
-            }
-            System.out.println("");
-        }while(!quitGame);
-    }
-    */

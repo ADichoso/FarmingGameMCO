@@ -28,9 +28,9 @@ public class Player {
     public Player(String name, FarmerType farmerType)
     {
         this.name = name;
-        this.experience = 0;
+        this.experience = 500;
         this.level = 0;
-        this.objectCoins = 100;
+        this.objectCoins = 300;
         this.farmerType = farmerType;
         initializeTools();
     }
@@ -198,7 +198,7 @@ public class Player {
      * Use a tool that has a specified toolID. Gain some EXP but may lose some objectcoins.
      * @param toolID is the toolID of the tool to use
      */
-    public void useTool(char toolID)
+    public String useTool(char toolID)
     {
         int toolIndex = getToolByID(toolID);
         Tool toolToUse = tools.get(toolIndex);
@@ -207,11 +207,11 @@ public class Player {
         if(toolToUse.getUseCost() <= objectCoins)
         {
             gainExperience(toolToUse.getExpGain());
-
-            System.out.println(name + " uses " + toolToUse.getUseCost() + " Objectcoins to use the " + toolToUse.getName());
             spendObjectCoins(toolToUse.getUseCost());
+
+            return name + " uses " + toolToUse.getUseCost() + " Objectcoins to use the " + toolToUse.getName();
         } else
-            System.out.println("Whoops! Looks like you do not have enough Objectcoins for that tool!");
+            return "Whoops! Looks like you do not have enough Objectcoins for that tool!";
 
     }
 
@@ -220,7 +220,7 @@ public class Player {
      * Try to plow a specific tile
      * @param tile is the tile to plow
      */
-    public void plowTile(Tile tile)
+    public String plowTile(Tile tile)
     {
         //If tile is not yet plowed & does not have a rock on it, plow the tile.
 
@@ -229,11 +229,11 @@ public class Player {
         //GUI.Tile is not yet plowed, nor does it have a rock
         if(tileState == Tile.NOT_PLOWED)
         {
-            useTool('p');
             tile.setStateID(Tile.PLOWED); //Plowed GUI.Tile
+            return useTool('p');
         }
         else
-            System.out.println("Whoops! Looks like you cannot plow on that tile!");
+            return "Whoops! Looks like you cannot plow on that tile!";
     }
 
     /**
@@ -241,7 +241,7 @@ public class Player {
      * @param tile is the tile to plant on
      * @param crop is the crop to plant
      */
-    public void plantCrop(Tile tile, Crop crop)
+    public String plantCrop(Tile tile, Crop crop)
     {
         //Check first if the tile is plowed
         int tileState = tile.getStateID();
@@ -257,24 +257,33 @@ public class Player {
 
             //Check if player has enough money to buy the crop
             if(cost <= objectCoins) {
-                tile.setCrop(crop); //Plant the crop
-                tile.setStateID(Tile.HAS_CROP); //Update tile state
-                spendObjectCoins(cost); //Spend the amount of coins it costs for the plant
+                boolean canPlant = true;
+                if(crop.getType().equals(Crop.FRUIT_TREE_CROP_TYPE))
+                    //Some extra checking has to be performed first before being able to plant a fruit tree
+                    canPlant = GameSystem.getRenderer().isSelectedTilesAdjacentEmpty(tile);
 
-                System.out.println(name + " spends " + cost + " Objectcoins to plant a/n " + crop.getName() + " " + crop.getType() + "!");
+                if(canPlant)
+                {
+                    tile.setCrop(crop); //Plant the crop
+                    tile.setStateID(Tile.HAS_CROP); //Update tile state
+                    spendObjectCoins(cost); //Spend the amount of coins it costs for the plant
+
+                    return name + " spends " + cost + " Objectcoins to plant a/n " + crop.getName() + " " + crop.getType() + "!";
+                } else
+                    return "Whoops! When planting a fruit tree, the 8 surrounding tiles should be empty!";
             }
             else
-                System.out.println("Whoops! Looks like you do not have enough Objectcoins for that crop!");
+                return "Whoops! Looks like you do not have enough Objectcoins for that crop!";
         }
         else
-            System.out.println("Whoops! Looks like that tile is not yet plowed!");
+            return "Whoops! Looks like that tile is not yet plowed!";
     }
 
     /**
      * Try to harvest a crop on a tile
      * @param tile is the tile to harvest on
      */
-    public void harvestCrop(Tile tile)
+    public String harvestCrop(Tile tile)
     {
         //Check if tile has a crop
         if(tile.hasCrop())
@@ -295,35 +304,38 @@ public class Player {
 
                     //Show and get earnings
                     int earnings = (int) (harvestBonus + waterBonus + fertBonus);
-                    System.out.println(name + " harvested " + numProduce + " " + tile.getCrop().getName() + "/s!");
-                    System.out.println(name + " has earned " + earnings + " Objectcoins!");
+
+                    String message = "<html>" + name + " harvested " + numProduce + " " + tile.getCrop().getName() + "/s!";
+                    message += "<br>" + name + " has earned " + earnings + " Objectcoins!";
                     gainObjectCoins(earnings);
 
                     //Show and get EXP
                     float expGain = tile.getCrop().getExpYield();
-                    System.out.println(name + " has gained " + expGain + " EXP!");
+                    message += "<br>" + name + " has gained " + expGain + " EXP!</html>";
                     gainExperience(expGain);
 
 
                     //Remove the crop
                     tile.setCrop(null);
                     tile.setStateID(Tile.NOT_PLOWED);
+
+                    return message;
                 }
                 else
-                    System.out.println("Whoops! Looks like the crop is not yet ready for harvest!");
+                    return "Whoops! Looks like the crop is not yet ready for harvest!";
             }
             else
-                System.out.println("Whoops! Looks like that crop is already withered!");
+                return "Whoops! Looks like that crop is already withered!";
         }
         else
-            System.out.println("Whoops! Looks like that tile does not have a crop!");
+            return "Whoops! Looks like that tile does not have a crop!";
     }
 
     /**
      * Try to remove a rock on a tile
      * @param tile is the tile tha tmay have a rock to remove with.
      */
-    public void removeRock(Tile tile)
+    public String removeRock(Tile tile)
     {
         //Check first if the tile has a rock
         int tileState = tile.getStateID();
@@ -331,23 +343,25 @@ public class Player {
         if(tileState == Tile.ROCKY)
         {
             //Has rock
-            useTool('x');
+            String message = "<html>" + useTool('x');
             tile.setStateID(Tile.NOT_PLOWED); //Unplowed GUI.Tile
-            System.out.println(name + " has removed a rock!");
+            message += "<br>" + name + " has removed a rock!</html>";
+
+            return message;
         } else
-            System.out.println("Whoops! Looks like there's no rock on that tile!");
+            return "Whoops! Looks like there's no rock on that tile!";
     }
 
     /**
      * Try to use a shovel on a tile
      * @param tile is the tile to dig in.
      */
-    public void useShovel(Tile tile)
+    public String useShovel(Tile tile)
     {
         //You can use the shovel in any tile
         int tileState = tile.getStateID();
 
-        useTool('s'); //Shovel will get used no matter what
+        String message = "<html>" + useTool('s'); //Shovel will get used no matter what
 
         if(tileState != Tile.ROCKY) //GUI.Tile not a rock
         {
@@ -356,19 +370,22 @@ public class Player {
             //Remove the crop, if available
             if(tile.hasCrop()) {
                 tile.setCrop(null);
-                System.out.println("You removed the crop!");
+                message += "<br>" + "You removed the crop!</html>";
             }
             else
-                System.out.println("The ground's water and fertilizer is gone!");
+                message += "<br>" + "The ground's water and fertilizer is gone!</html>";
         } else
-            System.out.println("You used your shovel! That did nothing!"); //GUI.Tile is a rock
+            message += "<br>" + "You used your shovel! That did nothing!</html>"; //GUI.Tile is a rock
+
+
+        return message;
     }
 
     /**
      * try to water a tile
      * @param tile is the tile to water
      */
-    public void waterLand(Tile tile)
+    public String waterLand(Tile tile)
     {
         //Check first if the tile is plowed
         int tileState = tile.getStateID();
@@ -383,23 +400,25 @@ public class Player {
                 if(!tile.getCrop().isWithered()) {
                     //If not withered, water the crop
                     tile.waterCrop();
-                    useTool('w');
-                    System.out.println(name + " has watered the land!");
+                    String message = "<html>" + useTool('w');
+                    message += "<br>" + name + " has watered the land!</html>";
+
+                    return message;
                 } else
-                    System.out.println("Whoops! Looks like that crop is already withered!");
+                    return "Whoops! Looks like that crop is already withered!";
             }
             else
-                System.out.println("Whoops! Looks like you don't have a crop in that tile!");
+                return "Whoops! Looks like you don't have a crop in that tile!";
         }
         else
-            System.out.println("Whoops! Looks like you can't water that tile!");
+            return "Whoops! Looks like you can't water that tile!";
     }
 
     /**
      * try to fertilize a tile
      * @param tile is the tile to fertilize
      */
-    public void fertilizeLand(Tile tile)
+    public String fertilizeLand(Tile tile)
     {
         //Check first if the tile has a rock
         int tileState = tile.getStateID();
@@ -409,41 +428,44 @@ public class Player {
                 if(!tile.getCrop().isWithered()) { ///not withered
                     //Fertilize crop
                     tile.fertilizeCrop();
-                    useTool('f');
-                    System.out.println(name + " has put fertilizer!");
+                    String message = "<html>" + useTool('f');
+                    message += "<br>" + name + " has put fertilizer!</html>";
+
+                    return message;
                 }
                 else
-                    System.out.println("Whoops! Looks like that crop is already withered!");
+                    return "Whoops! Looks like that crop is already withered!";
             }
             else
-                System.out.println("Whoops! Looks like you don't have a crop in that tile!");
+                return "Whoops! Looks like you don't have a crop in that tile!";
         }
         else
-            System.out.println("Whoops! Looks like you can't fertilize that tile!");
+            return "Whoops! Looks like you can't fertilize that tile!";
     }
 
     /**
      * Advance the player's crop type to the next level
      * @param newFarmerType is the new GameLogic.FarmerType of the player
      */
-    public void advanceFarmerType(FarmerType newFarmerType)
+    public String advanceFarmerType(FarmerType newFarmerType)
     {
         //Check if player still has a next Farmer Type (not max GameLogic.FarmerType)
         if(!newFarmerType.equals(null)) {
             //Check if player has enough levels to advance
-            if (newFarmerType.getLevelReq() == getLevel()) {
+            if (newFarmerType.getLevelReq() <= getLevel()) {
                 //Can register, check if player has enough money to do so
                 if (newFarmerType.getRegFee() <= getObjectCoins()) {
                     //Has enough objectcoins, proceed to register!
-                    System.out.println(name + " has become a " + newFarmerType.getName() + "!");
                     spendObjectCoins(newFarmerType.getRegFee());
                     setFarmerType(newFarmerType);
+                    return name + " has become a " + newFarmerType.getName() + "!";
+
                 } else
-                    System.out.println("Whoops! Looks like you don't have enough Objectcoins to register!");
+                    return "Whoops! Looks like you don't have enough Objectcoins to register!";
             } else
-                System.out.println("Whoops! Looks like you are not a high enough level to register!");
+                return "Whoops! Looks like you are not a high enough level to register!";
         } else
-            System.out.println("You are already at the highest registry!");
+            return "You are already at the highest registry!";
 
     }
 }

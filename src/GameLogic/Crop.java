@@ -6,6 +6,11 @@ package GameLogic;
  * @since 24/10/2022
  */
 public class Crop {
+    private static final String WITHERED_ICON_FILE_NAME = "Resources/Crops/withered.png";
+    public static final String ROOT_CROP_TYPE = "Root Crop";
+    public static final String FLOWER_CROP_TYPE = "Flower";
+    public static final String FRUIT_TREE_CROP_TYPE = "Fruit Tree";
+
     private String name;
     private String type;
     private int cost;
@@ -316,5 +321,4 @@ public class Crop {
 
     public boolean isNullCrop(){return name.equals("null");}
 
-    public String getCropIconFileName() {return String.format("Crops/%s.png", getName());}
 }

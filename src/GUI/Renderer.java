@@ -3,22 +3,51 @@ package GUI;
 import GameLogic.GameSystem;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Renderer {
+    private static final Color UNSELECTED_TILE_BG = new Color(124, 179, 66);
+    private static final Color SELECTED_TILE_BG = new Color(80, 134, 24);
     private static ArrayList<ArrayList<Tile>> tileSet;
     private GameFrame gameFrame;
     private HelpFrame helpFrame;
     private MainMenuFrame mainMenuFrame;
-    private StatsFrame statsFrame;
+    private SeedsFrame seedsFrame;
     private StoreFrame storeFrame;
+    private FarmerRegistrationFrame farmerRegistrationFrame;
+    private GameOverFrame gameOverFrame;
 
-    private TileInfoFrame tileInfoFrame;
+    public ArrayList<ArrayList<Tile>> getTileSet() {
+        return tileSet;
+    }
+
+    public HelpFrame getHelpFrame() {
+        return helpFrame;
+    }
+
+    public MainMenuFrame getMainMenuFrame() {
+        return mainMenuFrame;
+    }
+
+    public SeedsFrame getSeedsFrame() {
+        return seedsFrame;
+    }
+
+    public StoreFrame getStoreFrame() {
+        return storeFrame;
+    }
+
+    public GameFrame getGameFrame() {
+        return gameFrame;
+    }
 
     public Renderer(int tile_width, int tile_height)
     {
-        initializeFrames();
+        initializeGameFrames();
         initializeTileSet(tile_width, tile_height);
+        initializeFrames();
         mainMenuFrame.setVisible(true);
     }
 
@@ -32,53 +61,80 @@ public class Renderer {
         {
             ArrayList<Tile> tileRow = new ArrayList<Tile>();
             for (int j = 0; j < tile_row; j++) {
-                Tile tile = new Tile(new Dimension(gameFrame.getSize().width / (tile_row + 1), gameFrame.getSize().width / (tile_row + 1)),i * tile_row + j);
+                Tile tile = new Tile(3,i * tile_row + j);
 
                 tile.addActionListener(e ->
-                {
-                    Tile source = (Tile) e.getSource();
-                    tileInfoFrame.setVisible(true);
-                    tileInfoFrame.updateTileInfoTable(source.getTileInfo());
-                });
+                    {
+                        Tile source = (Tile) e.getSource();
+                        GameSystem.selectTile(source);
+                        updateSelectedTileInfo(source);
+
+                        gameFrame.getToolsPanel().performSelectedButtonAction();
+                    }
+                );
 
                 tileRow.add(tile);
             }
             System.out.println("Row #" + i);
             tileSet.add(tileRow);
         }
-        gameFrame.displayTilesSet(tileSet);
+
+        generateRockMap();
+
+        gameFrame.displayTilesSet(tileSet, tile_row, tile_col);
+        GameSystem.selectTile(tileSet.get(0).get(0));
     }
 
-
-    private void initializeFrames()
+    private void generateRockMap()
     {
-        gameFrame = new GameFrame
+        FileInputStream in = null;
+
+        try
+        {
+            in = new FileInputStream(RockMapGenerator.ROCK_MAP_FILE_NAME);
+
+            int c;
+            while((c = in.read()) != -1)
+            {
+                Tile tile = getTileWithID(c);
+                if(!tile.equals(null))
+                    tile.setStateID(Tile.ROCKY);
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+    }
+
+    private void initializeGameFrames()
+    {
+        storeFrame = new StoreFrame(e -> storeFrame.setVisible(false));
+        farmerRegistrationFrame = new FarmerRegistrationFrame
                 (
                         e ->
-                        {
-                            storeFrame.setVisible(true); //Open the store
-                        }
-                        ,
-                        e ->
-                        {
-                            statsFrame.setVisible(true); //Show the stats
-                        }
-                        ,
-                        e ->
-                        {
-                            GameSystem.updateValues(); //Advance the day
-                        },
-                        e ->
-                        {
-                            GameSystem.updateValues(); //Register Farmer Type
-                        },
-                        e ->
-                        {
-                            mainMenuFrame.setVisible(true); //Quit Game
-                            gameFrame.setVisible(false);
-                            GameSystem.resetGame();
-                        }
+                            {
+                            String message = GameSystem.advancePlayerFarmerType();
+                            gameFrame.showMessage(message);
+                            farmerRegistrationFrame.setVisible(false);
+                            },
+                        e -> farmerRegistrationFrame.setVisible(false)
                 );
+        gameFrame = new GameFrame
+                (
+                        storeFrame,
+                        e -> seedsFrame.setVisible(true), //Open the store
+                        e -> GameSystem.nextDay(), //Advance the day
+                        e ->
+                            {
+                                farmerRegistrationFrame.setVisible(true);
+                                farmerRegistrationFrame.displayFarmerTypeStats(GameSystem.getCurrentFarmerTypeInfo(), GameSystem.getNextFarmerTypeInfo());
+                            }, //Register Farmer Type
+                        e -> exitGameFrames() //Quit Game
+                );
+    }
+    private void initializeFrames()
+    {
         helpFrame = new HelpFrame
                 (
                         e ->
@@ -109,60 +165,183 @@ public class Renderer {
                             mainMenuFrame.setVisible(false);
                         }
                         ,
-                        e ->
-                        {
-                            System.exit(0);
-                        }
+                        e -> System.exit(0)
                 );
-        statsFrame = new StatsFrame
-                (
-                        e ->
-                        {
-                            statsFrame.setVisible(false);
-                        }
-                );
-        storeFrame = new StoreFrame
-                (
-                        e ->
-                        {
-                            storeFrame.setVisible(false);
-                        }
-                );
-        tileInfoFrame = new TileInfoFrame
+        seedsFrame = new SeedsFrame(e -> seedsFrame.setVisible(false));
+        gameOverFrame = new GameOverFrame
                 (
                     e ->
                     {
-                        tileInfoFrame.setVisible(false);
+                        restartGameFrames();
+                        gameOverFrame.setVisible(false);
+                    },
+                    e ->
+                    {
+                        exitGameFrames();
+                        gameOverFrame.setVisible(false);
                     }
                 );
+
     }
 
+    private void restartGameFrames()
+    {
+        gameFrame.setVisible(false);
+        tileSet.clear();
+        GameSystem.resetGame();
+        gameFrame.setVisible(true);
+    }
+
+    private void exitGameFrames()
+    {
+        gameFrame.setVisible(false);
+        mainMenuFrame.setVisible(true); //Quit Game
+        tileSet.clear();
+        GameSystem.quitGame();
+    }
+
+    public void showEndGameScreen(String message)
+    {
+        gameOverFrame.showGameOverMessage(message);
+    }
     public void updatePlayerStats(String[] playerStats)
     {
-        statsFrame.updatePlayerTable(playerStats);
+        gameFrame.updateStats(playerStats);
     }
 
 
     public void advanceDay(int currDay)
     {
-        GameSystem.incrementDay();
-
-        for(int i = 0; i < tileSet.size(); i++)
-            for(int j = 0; j < tileSet.get(i).size(); j++)
-                if(!tileSet.get(i).get(j).getCrop().isNullCrop()) tileSet.get(i).get(j).getCrop().growCrop();
+        for(int i = 0; i < tileSet.size(); i++) {
+            for (int j = 0; j < tileSet.get(i).size(); j++) {
+                tileSet.get(i).get(j).onAdvanceDay();
+            }
+        }
 
         gameFrame.displayDay(currDay);
     }
 
     public void updateSeedStore(String[][] seedStore)
     {
+        seedsFrame.updateStore(seedStore);
         storeFrame.updateStore(seedStore);
     }
 
     public void initializeSeedStore(String[][] seedStore, String[] seedColumns)
     {
+        seedsFrame.addStoreHeaders(seedColumns);
         storeFrame.addStoreHeaders(seedColumns);
+
+        String[] seedNames = new String[seedStore.length];
+        for(int i = 0; i < seedNames.length; i++)
+        {
+            seedNames[i] = seedStore[i][0];
+        }
+
+        storeFrame.initializeCropSelectionButtons(seedNames, gameFrame.getMessageLabel());
+
         updateSeedStore(seedStore);
+    }
+
+    public void updateSelectedTileInfo(Tile selectedTile)
+    {
+        gameFrame.getTilesInfoPanel().updateTileInfoTable(selectedTile.getTileInfo());
+
+        for(int i = 0; i < tileSet.size(); i++) {
+            for (int j = 0; j < tileSet.get(i).size(); j++) {
+                tileSet.get(i).get(j).setBackground(UNSELECTED_TILE_BG);
+            }
+        }
+
+        selectedTile.setBackground(SELECTED_TILE_BG);
+    }
+
+    public void resetGameFrames(int tile_row, int tile_col)
+    {
+        initializeGameFrames();
+        initializeTileSet(tile_row, tile_col);
+    }
+    public boolean isSelectedTilesAdjacentEmpty(Tile selectedTile)
+    {
+        int tileID = selectedTile.getTileID();
+        int topTileID = tileID - 10;
+        int bottomTileID = tileID + 10;
+
+        int[] surroundingTileIDs = {topTileID - 1, topTileID, topTileID + 1, tileID - 1, tileID + 1, bottomTileID - 1, bottomTileID, bottomTileID + 1};
+
+        //check if any of the surroundingTileIDs is negative / over the number of tiles
+        int tiles_amt = tileSet.size() * tileSet.get(0).size();
+
+        boolean isOutsideRange = false;
+        for(int ID : surroundingTileIDs)
+        {
+            if(ID < 0 || ID > tiles_amt)
+            {
+                isOutsideRange = true;
+                break;
+            }
+        }
+
+        //If not outside range, check each tiles if all of them are empty
+        if(isOutsideRange)
+            return false;
+        else
+        {
+            for(int ID : surroundingTileIDs)
+            {
+                //Get tile with corresponding ID
+                Tile tile = getTileWithID(ID);
+                if(tile.hasCrop() || tile.getStateID() == Tile.ROCKY)
+                    return false;
+            }
+
+            return true;
+        }
+    }
+
+    public Tile getTileWithID(int tileID)
+    {
+        for(int i = 0; i < tileSet.size(); i++)
+        {
+            for(int j = 0; j < tileSet.get(i).size(); j++)
+            {
+                if(tileSet.get(i).get(j).getTileID() == tileID)
+                    return tileSet.get(i).get(j);
+            }
+        }
+
+        return null;
+    }
+
+    public boolean isAllTilesWithered()
+    {
+        for(int i = 0; i < tileSet.size(); i++)
+        {
+            for(int j = 0; j < tileSet.get(i).size(); j++)
+            {
+                if(tileSet.get(i).get(j).hasCrop()) {
+                    if (!tileSet.get(i).get(j).getCrop().isWithered())
+                        return false;
+                } else
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean hasPlantedCrops()
+    {
+        for(int i = 0; i < tileSet.size(); i++)
+        {
+            for(int j = 0; j < tileSet.get(i).size(); j++)
+            {
+                if(tileSet.get(i).get(j).hasCrop())
+                    return true;
+            }
+        }
+
+        return false;
     }
 }
 

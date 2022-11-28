@@ -4,8 +4,6 @@ import GameLogic.Crop;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /** Tiles for interaction for the farming game. Contains the crops and land the player will utilize.
@@ -13,13 +11,7 @@ import java.util.ArrayList;
  * @version 2.1
  * @since 01/11/2022
  */
-public class Tile extends JButton {
-
-    private final String PLOWED_ICON_NAME = "plowed.png";
-    private final String NOT_PLOWED_ICON_NAME = "not_plowed.png";
-    private final String ROCKY_ICON_NAME = "rocky.png";
-
-
+public class Tile extends JButton{
     public static final int PLOWED = 1;
     public static final int NOT_PLOWED = 2;
     public static final int ROCKY = 3;
@@ -33,12 +25,12 @@ public class Tile extends JButton {
     /**
      * Initialize the tile as not plowed, not having any tiles (No need for rocks right now)
      */
-    public Tile(Dimension dimension, int tileID) {
+    public Tile(float scalingFactor, int tileID) {
         this.crop = new Crop();
         this.tileID = tileID;
 
         setStateID(NOT_PLOWED);
-        setPreferredSize(dimension);
+        setPreferredSize(new Dimension((int)(getIcon().getIconWidth() * scalingFactor), (int) (getIcon().getIconHeight() * scalingFactor)));
     }
 
     public int getTileID() {
@@ -89,30 +81,75 @@ public class Tile extends JButton {
         switch (stateID) {
             case NOT_PLOWED:
                 this.state = "not plowed";
-                setIcon(new ImageIcon(NOT_PLOWED_ICON_NAME));
                 break;
             case PLOWED:
                 this.state = "plowed";
-                setIcon(new ImageIcon(PLOWED_ICON_NAME));
                 break;
             case ROCKY:
                 this.state = "rocky";
-                setIcon(new ImageIcon(ROCKY_ICON_NAME));
                 break;
             case HAS_CROP:
                 this.state = "has crop";
-                setIcon(new ImageIcon(getCrop().getCropIconFileName()));
                 break;
         }
         this.stateID = stateID;
 
+        updateTileIcon();
+    }
+
+    public void onAdvanceDay()
+    {
+        if(hasCrop()) getCrop().growCrop();
+        updateTileIcon();
+    }
+
+    public void updateTileIcon()
+    {
+        String iconFileName = "";
+        switch (getStateID()) {
+            case NOT_PLOWED:
+                iconFileName = PictureLocations.NOT_PLOWED_ICON_NAME;
+                break;
+            case PLOWED:
+                iconFileName = PictureLocations.PLOWED_ICON_NAME;
+                break;
+            case ROCKY:
+                iconFileName = PictureLocations.ROCKY_ICON_NAME;
+                break;
+            case HAS_CROP:
+                if(getCrop().isReadyForHarvest())
+                {
+                    //If crop is harvestable, show the fruit
+                    iconFileName = PictureLocations.getFruitIconFileName(getCrop().getName());
+                }
+                else if (getCrop().isWithered())
+                {
+                    //If crop is wither, show the withered object
+                    iconFileName = PictureLocations.WITHERED_ICON_FILE_NAME;
+                }
+                else
+                {
+                    //If crop is not yer harvestable, just show the plant
+                    iconFileName = PictureLocations.getCropIconFileName(getCrop().getName());
+                }
+                break;
+        }
+
+        try
+        {
+            setIcon(new ImageIcon(Renderer.class.getResource(iconFileName)));
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
     }
     /**
      * Check if there is a crop on the tile
      * @return true if there's a crop, false if not
      */
     public boolean hasCrop() {
-        return this.crop != null;
+        return !crop.isNullCrop();
     }
 
     /**
@@ -124,7 +161,7 @@ public class Tile extends JButton {
         if(crop != null)
             this.crop = new Crop(crop);
         else
-            this.crop = null; //Set to null if null
+            this.crop = new Crop(); //Set to null if null
     }
 
     /**

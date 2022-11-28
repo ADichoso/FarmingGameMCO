@@ -5,17 +5,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class TileInfoFrame extends JFrame {
+public class TileInfoPanel extends JPanel {
 
     private DefaultTableModel tileInfoTableModel;
-    public TileInfoFrame(ActionListener onQuitAction)
+    public TileInfoPanel()
     {
         //Create the main menu frame (Has the image display, title, start game button, help button, and quit button)
         setName("Tile Information");
-        setTitle("Tile Information");
-        setSize(300, 400);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setPreferredSize(new Dimension(300, 400));
 
         JPanel tileInfoPanel = new JPanel();
         tileInfoPanel.setLayout(new FlowLayout());
@@ -23,16 +20,9 @@ public class TileInfoFrame extends JFrame {
         tileInfoTableModel = new DefaultTableModel();
         tileInfoTableModel.addColumn("Tile Information");
         JTable tileInfoTbl = new JTable(tileInfoTableModel);
-        tileInfoTbl.setPreferredSize(new Dimension(200, 300));
+        tileInfoTbl.setPreferredSize(new Dimension(200, 200));
 
-
-        tileInfoPanel.add(tileInfoTbl);
-
-        JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(onQuitAction);
-
-        add(tileInfoPanel, BorderLayout.CENTER);
-        add(exitButton, BorderLayout.SOUTH);
+        add(tileInfoTbl, BorderLayout.CENTER);
     }
 
     public void updateTileInfoTable(String[] tileInfo)

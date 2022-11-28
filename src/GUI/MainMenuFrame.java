@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainMenuFrame extends JFrame {
-    private final String TITLE_IMAGE_NAME = "gathersun.png";
 
     private JTextField nameTextField;
     private JLabel namePromptLbl;
@@ -18,12 +17,12 @@ public class MainMenuFrame extends JFrame {
         //Create the main menu frame (Has the image display, title, start game button, help button, and quit button)
 
         setName("GATHER SUN");
-        setSize(640, 600);
+        setSize(640, 500);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
 
-        JLabel imageLbl = new JLabel(new ImageIcon(Renderer.class.getResource(TITLE_IMAGE_NAME)));
+        JLabel imageLbl = new JLabel(new ImageIcon(Renderer.class.getResource(PictureLocations.TITLE_IMAGE_NAME)));
         imageLbl.setSize(533, 400);
 
         JButton startButton = new JButton("Start!");
