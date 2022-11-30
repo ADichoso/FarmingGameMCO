@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 /** Tiles for interaction for the farming game. Contains the crops and land the player will utilize.
  * @author Aaron Dichoso & Andrei Martin
- * @version 2.1
- * @since 01/11/2022
+ * @version 3.2
+ * @since 30/11/2022
  */
 public class Tile extends JButton{
     public static final int PLOWED = 1;
@@ -22,8 +22,12 @@ public class Tile extends JButton{
     private Crop crop;
 
     private int tileID;
+
+
     /**
-     * Initialize the tile as not plowed, not having any tiles (No need for rocks right now)
+     * Initialize the tile as not plowed and apply its attributes, like its icons and size
+     * @param scalingFactor
+     * @param tileID
      */
     public Tile(float scalingFactor, int tileID) {
         this.crop = new Crop();
@@ -33,6 +37,10 @@ public class Tile extends JButton{
         setPreferredSize(new Dimension((int)(getIcon().getIconWidth() * scalingFactor), (int) (getIcon().getIconHeight() * scalingFactor)));
     }
 
+    /**
+     * Return the tile ID
+     * @return the tile ID
+     */
     public int getTileID() {
         return tileID;
     }
@@ -97,53 +105,6 @@ public class Tile extends JButton{
         updateTileIcon();
     }
 
-    public void onAdvanceDay()
-    {
-        if(hasCrop()) getCrop().growCrop();
-        updateTileIcon();
-    }
-
-    public void updateTileIcon()
-    {
-        String iconFileName = "";
-        switch (getStateID()) {
-            case NOT_PLOWED:
-                iconFileName = PictureLocations.NOT_PLOWED_ICON_NAME;
-                break;
-            case PLOWED:
-                iconFileName = PictureLocations.PLOWED_ICON_NAME;
-                break;
-            case ROCKY:
-                iconFileName = PictureLocations.ROCKY_ICON_NAME;
-                break;
-            case HAS_CROP:
-                if(getCrop().isReadyForHarvest())
-                {
-                    //If crop is harvestable, show the fruit
-                    iconFileName = PictureLocations.getFruitIconFileName(getCrop().getName());
-                }
-                else if (getCrop().isWithered())
-                {
-                    //If crop is wither, show the withered object
-                    iconFileName = PictureLocations.WITHERED_ICON_FILE_NAME;
-                }
-                else
-                {
-                    //If crop is not yer harvestable, just show the plant
-                    iconFileName = PictureLocations.getCropIconFileName(getCrop().getName());
-                }
-                break;
-        }
-
-        try
-        {
-            setIcon(new ImageIcon(GUISystem.class.getResource(iconFileName)));
-        }
-        catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
-    }
     /**
      * Check if there is a crop on the tile
      * @return true if there's a crop, false if not
@@ -180,6 +141,64 @@ public class Tile extends JButton{
         if(crop != null) crop.addFertilizer();
     }
 
+    /**
+     * Grow the crop if the day has advanced
+     */
+    public void onAdvanceDay()
+    {
+        if(hasCrop()) getCrop().growCrop();
+        updateTileIcon();
+    }
+
+    /**
+     * Update the tile's icon depending on its state
+     */
+    public void updateTileIcon()
+    {
+        String iconFileName = "";
+        switch (getStateID()) {
+            case NOT_PLOWED:
+                iconFileName = PictureLocations.NOT_PLOWED_ICON_NAME;
+                break;
+            case PLOWED:
+                iconFileName = PictureLocations.PLOWED_ICON_NAME;
+                break;
+            case ROCKY:
+                iconFileName = PictureLocations.ROCKY_ICON_NAME;
+                break;
+            case HAS_CROP:
+                if(getCrop().isReadyForHarvest())
+                {
+                    //If crop is harvestable, show the fruit
+                    iconFileName = PictureLocations.getFruitIconFileName(getCrop().getName());
+                }
+                else if (getCrop().isWithered())
+                {
+                    //If crop is wither, show the withered object
+                    iconFileName = PictureLocations.WITHERED_ICON_FILE_NAME;
+                }
+                else
+                {
+                    //If crop is not yet harvestable, just show the plant
+                    iconFileName = PictureLocations.getCropIconFileName(getCrop().getName());
+                }
+                break;
+        }
+
+        try
+        {
+            setIcon(new ImageIcon(GUISystem.class.getResource(iconFileName))); //Set the icon
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+    }
+
+    /**
+     * Return the tile's information
+     * @return the tile information as an array of strings
+     */
     public String[] getTileInfo()
     {
         ArrayList<String> tileInfoList = new ArrayList<String>();

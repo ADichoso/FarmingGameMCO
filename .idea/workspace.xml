@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System">
-      <change afterPath="$PROJECT_DIR$/src/GUI/ParentFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/CropSelectionButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/CropSelectionButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/FarmerRegistrationFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/FarmerRegistrationFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/FarmerTypePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/FarmerTypePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/GameOverFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameOverFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/HelpFrame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MainMenuFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MainMenuFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/PictureLocations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/PictureLocations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GUISystem.java" afterDir="false" />
+    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Refactoring and added Documentation">
+      <change beforePath="$PROJECT_DIR$/src/GUI/GUISystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GUISystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/RockMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/RockMapGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SeedsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SeedsFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/StatsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StatsPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/StoreFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StoreFrame.java" afterDir="false" />
@@ -23,11 +14,7 @@
       <change beforePath="$PROJECT_DIR$/src/GUI/TileInfoPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/TileInfoPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameLogic/Crop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/Crop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameLogic/FarmerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/FarmerType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameLogic/GameSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/GameSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameLogic/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameLogic/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/Tool.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669650787851</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Refactoring and added Documentation&#10;Added Icons">
+      <created>1669799565966</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669799565966</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -179,7 +173,9 @@
     <MESSAGE value="Updated Tile character assignment" />
     <MESSAGE value="Added GUI implementations&#10;Refactored Files&#10;Added Icons" />
     <MESSAGE value="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System" />
+    <MESSAGE value="Refactoring and added Documentation&#10;Added Icons" />
+    <MESSAGE value="Refactoring and added Documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring and added Documentation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

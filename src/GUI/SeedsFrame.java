@@ -5,9 +5,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/** A JFrame that displays the seeds information to the user
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 3.2
+ * @since 30/11/2022
+ */
 public class SeedsFrame extends ParentFrame {
 
     protected DefaultTableModel seedsTableModel;
+
+    /**
+     * Initialize the seed frame
+     * @param onQuitAction is the action performed when the player exits the seeds frame
+     */
     public SeedsFrame(ActionListener onQuitAction)
     {
         super();
@@ -35,10 +45,13 @@ public class SeedsFrame extends ParentFrame {
         add(exitButton, BorderLayout.SOUTH);
     }
 
+    /**
+     * Update the seeds store with new information
+     * @param seedStore is the information about the seeds
+     */
     public void updateStore(String[][] seedStore)
     {
         int rows = seedsTableModel.getRowCount();
-
 
         for(int i = 0; i < rows; i++)
             seedsTableModel.removeRow(0);
@@ -47,6 +60,10 @@ public class SeedsFrame extends ParentFrame {
             seedsTableModel.insertRow(seedsTableModel.getRowCount(), storeRow);
     }
 
+    /**
+     * Add the store headers to the table
+     * @param seedColumns are the columns headers in the table
+     */
     public void addStoreHeaders(String[] seedColumns)
     {
         if(seedsTableModel.getColumnCount() == 0)

@@ -5,9 +5,17 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/** A JPanel that contains the player stats
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 3.2
+ * @since 30/11/2022
+ */
 public class StatsPanel extends JPanel {
     private DefaultTableModel playerTableModel;
 
+    /**
+     * Initialize a stat panel
+     */
     public StatsPanel()
     {
         setOpaque(false);
@@ -21,6 +29,10 @@ public class StatsPanel extends JPanel {
     }
 
 
+    /**
+     * Update the player information
+     * @param playerStats is the new player information
+     */
     public void updatePlayerTable(String[] playerStats)
     {
         int rows = playerTableModel.getRowCount();

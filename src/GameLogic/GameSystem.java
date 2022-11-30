@@ -343,7 +343,7 @@ public class GameSystem {
     public static void updateGUI()
     {
         guiSystem.updatePlayerStats(getPlayerInfo());
-        guiSystem.initializeSeedStore(getSeedStore(), getSeedColumns());
+        guiSystem.updateSeedStore(getSeedStore());
         guiSystem.highlightTile(selectedTile);
 
         String gameOverMessage = isGameOver();
@@ -351,6 +351,19 @@ public class GameSystem {
             guiSystem.showEndGameScreen(gameOverMessage);
     }
 
+    /**
+     * Initialize the renderer's GUI values at the start of the game
+     */
+    public static void initializeGUI()
+    {
+        guiSystem.updatePlayerStats(getPlayerInfo());
+        guiSystem.initializeSeedStore(getSeedStore(), getSeedColumns());
+        guiSystem.highlightTile(selectedTile);
+
+        String gameOverMessage = isGameOver();
+        if(!gameOverMessage.equals(""))
+            guiSystem.showEndGameScreen(gameOverMessage);
+    }
     /**
      * Advance to the next day and update values.
      */
@@ -389,7 +402,7 @@ public class GameSystem {
     public static void startGame(String playerName)
     {
         player = new Player(playerName, farmerTypes.get(0));
-        updateGUI();
+        initializeGUI();
     }
 
     /**
@@ -407,7 +420,7 @@ public class GameSystem {
     public static void quitGame()
     {
         currDay = 1;
-        guiSystem.resetGameFrames();
+        guiSystem.resetFrames();
         updateGUI();
     }
 

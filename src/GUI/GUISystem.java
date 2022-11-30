@@ -329,19 +329,28 @@ public class GUISystem {
         gameFrame.displayDay(currDay);
     }
 
+    /**
+     * Update the seed and store prices according to the player's farmer type. This should only run if a player's farmer type changes.
+     * @param seedStore
+     */
     public void updateSeedStore(String[][] seedStore)
     {
         seedsFrame.updateStore(seedStore);
         storeFrame.updateStore(seedStore);
     }
 
+    /**
+     * Initialize the seed and store frames at the start of the program.
+     * @param seedStore is all the information regarding the seeds
+     * @param seedColumns is the header for the seedStore
+     */
     public void initializeSeedStore(String[][] seedStore, String[] seedColumns)
     {
         seedsFrame.addStoreHeaders(seedColumns);
         storeFrame.addStoreHeaders(seedColumns);
 
         String[] seedNames = new String[seedStore.length];
-        for(int i = 0; i < seedNames.length; i++)
+        for(int i = 0; i < seedNames.length; i++) //Get all the seed's names
         {
             seedNames[i] = seedStore[i][0];
         }
@@ -351,30 +360,48 @@ public class GUISystem {
         updateSeedStore(seedStore);
     }
 
+    /**
+     * Highlight a tile after selecting it
+     * @param selectedTile is the selected tile
+     */
     public void highlightTile(Tile selectedTile)
     {
+        //Show the new tile's information
         gameFrame.getTilesInfoPanel().updateTileInfoTable(selectedTile.getTileInfo());
 
+        //Unhighlighted all of the other tiles
         for(int i = 0; i < tileSet.size(); i++) {
             for (int j = 0; j < tileSet.get(i).size(); j++) {
                 tileSet.get(i).get(j).setBackground(UNSELECTED_TILE_BG);
             }
         }
 
+        //Highlight the selected tile
         selectedTile.setBackground(SELECTED_TILE_BG);
     }
 
-    public void resetGameFrames()
+
+    /**
+     * Reset the frames after a game ends
+     */
+    public void resetFrames()
     {
         initializeGameFrames();
         initializeTileSet();
     }
+
+    /**
+     * Check if the surrounding 8 tiles of a selected tile are empty
+     * @param selectedTile is the selected tile
+     * @return true if the 8 surrounding tiles of a selected tile is empty, false if not
+     */
     public boolean isSelectedTilesSurroundingEmpty(Tile selectedTile)
     {
         int tileID = selectedTile.getTileID();
         int topTileID = tileID - 10;
         int bottomTileID = tileID + 10;
 
+        //Get the IDs of the surrounding tiles
         int[] surroundingTileIDs = {topTileID - 1, topTileID, topTileID + 1, tileID - 1, tileID + 1, bottomTileID - 1, bottomTileID, bottomTileID + 1};
 
         //check if any of the surroundingTileIDs is negative / over the number of tiles
@@ -400,13 +427,18 @@ public class GUISystem {
                 //Get tile with corresponding ID
                 Tile tile = getTileWithID(ID);
                 if(tile.hasCrop() || tile.getStateID() == Tile.ROCKY)
-                    return false;
+                    return false; //Not empty
             }
 
-            return true;
+            return true; //Is empty
         }
     }
 
+    /**
+     * Get a tile in the tileset given its ID
+     * @param tileID is the tile's ID
+     * @return the tile with the specified ID
+     */
     public Tile getTileWithID(int tileID)
     {
         for(int i = 0; i < tileSet.size(); i++)
@@ -418,9 +450,13 @@ public class GUISystem {
             }
         }
 
-        return null;
+        return null; //Not found
     }
 
+    /**
+     * Check if all of the tiles in the game consist of withered crops
+     * @return true if all of the tiles have withered crops, false if not
+     */
     public boolean isAllTilesWithered()
     {
         for(int i = 0; i < tileSet.size(); i++)
@@ -438,6 +474,10 @@ public class GUISystem {
         return true;
     }
 
+    /**
+     * Check if there are any planted crops in the tiles
+     * @return true if there is a planted crop, false if not
+     */
     public boolean hasPlantedCrops()
     {
         for(int i = 0; i < tileSet.size(); i++)
@@ -452,25 +492,3 @@ public class GUISystem {
         return false;
     }
 }
-
-/*
-*
-private static void getTileInfo()
-{
-    System.out.println("=-=-=CURRENT LAND INFO=-=-=");
-    System.out.println("State: " + tileSet.get(0).getState());
-    System.out.println("Has Plant: " + tileSet.get(0).hasCrop());
-    if(tileSet.get(0).hasCrop())
-    {
-        System.out.println("\t>> Current Plant: " + tileSet.get(0).getCrop().getName());
-        System.out.println("\t\t> Age: " + tileSet.get(0).getCrop().getAge());
-        System.out.println("\t\t> Ready for Harvest: " + tileSet.get(0).getCrop().isReadyForHarvest());
-        System.out.println("\t\t> Is Withered: " + tileSet.get(0).getCrop().isWithered());
-        System.out.println("\t\t> Times Watered: " + tileSet.get(0).getCrop().getWaterTimes());
-        System.out.println("\t\t\t- Has Water Needs: " + tileSet.get(0).getCrop().hasWaterNeeds());
-        System.out.println("\t\t> Times Fertilized: " + tileSet.get(0).getCrop().getFertTimes());
-        System.out.println("\t\t\t- Has Fertilizer Needs: " + tileSet.get(0).getCrop().hasFertNeeds());
-    }
-}
-
-* */
