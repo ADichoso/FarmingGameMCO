@@ -2,8 +2,8 @@ package GameLogic;
 
 /** GameLogic.Crop class which defines the attributes that each crop contains
  * @author Aaron Dichoso & Andrei Martin
- * @version 1.1
- * @since 24/10/2022
+ * @version 3.2
+ * @since 30/11/2022
  */
 public class Crop {
     private static final String WITHERED_ICON_FILE_NAME = "Resources/Crops/withered.png";
@@ -86,6 +86,9 @@ public class Crop {
         );
     }
 
+    /**
+     * Instantiate a null crop with default values.
+     */
     public Crop()
     {
         this(
@@ -319,6 +322,11 @@ public class Crop {
         return getFertTimes() >= getFertNeed();
     }
 
+
+    /**
+     * Check if the current crop object is actually a null crop, or the crop with default values.
+     * @return true if the crop object is a null crop, false if not.
+     */
     public boolean isNullCrop(){return name.equals("null");}
 
 }

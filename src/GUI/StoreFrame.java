@@ -19,6 +19,7 @@ public class StoreFrame extends SeedsFrame {
 
         cropButtonsPanel = new JPanel();
         cropButtonsPanel.setPreferredSize(new Dimension(40, getHeight()));
+        cropButtonsPanel.setOpaque(false);
         add(cropButtonsPanel, BorderLayout.EAST);
     }
     public void initializeCropSelectionButtons(String[] cropNames, JLabel gameMessageLabel)

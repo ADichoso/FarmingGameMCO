@@ -21,6 +21,7 @@ public class ToolButtonPanel extends JPanel {
     public ToolButtonPanel(ActionListener onButtonClickAction, String labelText)
     {
         //Create the main menu frame (Has the image display, title, start game button, help button, and quit button)
+        setOpaque(false);
 
         toolButton = new JButton();
         toolButton.addActionListener(onButtonClickAction);

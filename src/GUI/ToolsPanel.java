@@ -29,6 +29,8 @@ public class ToolsPanel extends JPanel {
     public ToolsPanel(ActionListener onPlowAction, ActionListener onShovelAction, ActionListener onPickaxeAction, ActionListener onPlantAction, ActionListener onWaterAction, ActionListener onFertAction, ActionListener onHarvestAction)
     {
         //Create the main menu frame (Has the image display, title, start game button, help button, and quit button)
+        setOpaque(false);
+
         setName("Tools");
         setLayout(new FlowLayout());
 

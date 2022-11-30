@@ -1,27 +1,31 @@
 package GUI;
 
-import GameLogic.Crop;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-/** Tiles for interaction for the farming game. Contains the crops and land the player will utilize.
+/** A JButton used to select crops that the player can plant
  * @author Aaron Dichoso & Andrei Martin
- * @version 2.1
- * @since 01/11/2022
+ * @version 3.2
+ * @since 30/11/2022
  */
 public class CropSelectionButton extends JButton{
+
     /**
-     * Initialize the tile as not plowed, not having any tiles (No need for rocks right now)
+     * Initialize the crop selection button with its action
+     * @param onButtonClick is the action performed when the crop selection button is pressed
+     * @param selectedCropName is the name of the crop selected
+     * @param scalingFactor is the scaling factor for the button's size
      */
     public CropSelectionButton(ActionListener onButtonClick, String selectedCropName, float scalingFactor) {
         addActionListener(onButtonClick);
-        try {
-            setIcon(new ImageIcon(Renderer.class.getResource(PictureLocations.getFruitIconFileName(selectedCropName))));
+
+        try
+        {
+            setIcon(new ImageIcon(GUISystem.class.getResource(PictureLocations.getFruitIconFileName(selectedCropName)))); //Set the image of the button
             setPreferredSize(new Dimension((int)(getIcon().getIconWidth() * scalingFactor), (int) (getIcon().getIconHeight() * scalingFactor)));
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             System.out.println(ex);
         }

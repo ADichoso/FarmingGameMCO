@@ -10,6 +10,7 @@ public class StatsPanel extends JPanel {
 
     public StatsPanel()
     {
+        setOpaque(false);
 
         playerTableModel = new DefaultTableModel();
         playerTableModel.addColumn("PlayerInfo");
@@ -28,14 +29,6 @@ public class StatsPanel extends JPanel {
             playerTableModel.removeRow(0);
 
         for (String stats: playerStats)
-        {
-            if (playerTableModel.getRowCount() <= 0)
-                playerTableModel.insertRow(0, new Object[]{stats});
-            else
-                playerTableModel.insertRow(playerTableModel.getRowCount(), new Object[]{stats});
-        }
-
-        rows = playerTableModel.getRowCount() - 1;
-        playerTableModel.moveRow(rows, rows,0);
+            playerTableModel.insertRow(playerTableModel.getRowCount(), new Object[]{stats});
     }
 }

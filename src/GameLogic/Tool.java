@@ -2,8 +2,8 @@ package GameLogic;
 
 /** Class used to define the information of the tools that the player uses
  * @author Aaron Dichoso & Andrei Martin
- * @version 2.1
- * @since 01/11/2022
+ * @version 3.2
+ * @since 30/11/2022
  */
 public class Tool {
     private String name;

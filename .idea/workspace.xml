@@ -4,55 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Added GUI implementations&#10;Refactored Files&#10;Added Icons">
-      <change afterPath="$PROJECT_DIR$/src/GUI/CropSelectionButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/FarmerRegistrationFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/FarmerTypePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/GameOverFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/PictureLocations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/RockMapGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/SeedsFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" afterDir="false" />
+    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System">
+      <change afterPath="$PROJECT_DIR$/src/GUI/ParentFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/apple2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/carrot_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/carrot_grown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/fertilizer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/harvest.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/mango.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/not_plower.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/pickaxe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/plow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/plowed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/potato_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/potato_grown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/rocky.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/rose_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/rose_grown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/shovel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/sunflower_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/sunflower_grown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/tomato_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/tree.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/tulip_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/tulip_grown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/turnip_crop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/turnip_grown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/water.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Crops/withered.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/CropSelectionButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/CropSelectionButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/FarmerRegistrationFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/FarmerRegistrationFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/FarmerTypePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/FarmerTypePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/GameOverFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameOverFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/HelpFrame.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/MainMenuFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MainMenuFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Mineria.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Renderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/StatsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StatsPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/PictureLocations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/PictureLocations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GUISystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/SeedsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SeedsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/StatsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StatsPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/StoreFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StoreFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/TileInfoFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/TileInfoPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/gathersun.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/TileInfoPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/TileInfoPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameLogic/Crop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/Crop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameLogic/FarmerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/FarmerType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameLogic/GameSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/GameSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameLogic/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameLogic/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/Tool.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +60,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Desktop/CollegeY2Files/CCPROG3/Project Files/FarmingGameMCO/src/GUI&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Desktop/CollegeY2Files/CCPROG3/Project Files/Library&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
 }</component>
@@ -169,8 +144,18 @@
       <option name="project" value="LOCAL" />
       <updated>1669294041804</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System">
+      <created>1669650787851</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1669650787851</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.cfg" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -193,7 +178,8 @@
     <MESSAGE value="Updated methods visibility between classes" />
     <MESSAGE value="Updated Tile character assignment" />
     <MESSAGE value="Added GUI implementations&#10;Refactored Files&#10;Added Icons" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added GUI implementations&#10;Refactored Files&#10;Added Icons" />
+    <MESSAGE value="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Player Farmer Type Registry System&#10;Added Planting System&#10;Added Reset and Quit Game &#10;Added GUI design&#10;Added Store System&#10;Modified GUI&#10;Added Rock Generation System" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

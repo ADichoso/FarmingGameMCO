@@ -137,7 +137,7 @@ public class Tile extends JButton{
 
         try
         {
-            setIcon(new ImageIcon(Renderer.class.getResource(iconFileName)));
+            setIcon(new ImageIcon(GUISystem.class.getResource(iconFileName)));
         }
         catch (Exception ex)
         {

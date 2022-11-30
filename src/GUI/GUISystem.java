@@ -7,46 +7,85 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Renderer {
+/** The main renderer class used to render and handle all the GUI used in the program
+ * @author Aaron Dichoso & Andrei Martin
+ * @version 3.2
+ * @since 30/11/2022
+ */
+public class GUISystem {
     private static final Color UNSELECTED_TILE_BG = new Color(124, 179, 66);
     private static final Color SELECTED_TILE_BG = new Color(80, 134, 24);
-    private static ArrayList<ArrayList<Tile>> tileSet;
+
+    private final int WIDTH;
+    private final int HEIGHT;
+
+    private ArrayList<ArrayList<Tile>> tileSet;
     private GameFrame gameFrame;
-    private HelpFrame helpFrame;
     private MainMenuFrame mainMenuFrame;
     private SeedsFrame seedsFrame;
     private StoreFrame storeFrame;
     private FarmerRegistrationFrame farmerRegistrationFrame;
     private GameOverFrame gameOverFrame;
 
+
+    /**
+     * Get the tile set
+     * @return the tile set
+     */
     public ArrayList<ArrayList<Tile>> getTileSet() {
         return tileSet;
     }
 
-    public HelpFrame getHelpFrame() {
-        return helpFrame;
-    }
-
+    /**
+     * Get the main menu frame
+     * @return the main menu frame
+     */
     public MainMenuFrame getMainMenuFrame() {
         return mainMenuFrame;
     }
 
+    /**
+     * Get the seeds frame, which displays all the seed information to the player
+     * @return the seeds frame, which displays all the seed information to the player
+     */
     public SeedsFrame getSeedsFrame() {
         return seedsFrame;
     }
 
+    /**
+     * Get the store frame, which displays all the seed information to the player while allowing them to plant
+     * @return the store frame, which displays all the seed information to the player while allowing them to plant
+     */
     public StoreFrame getStoreFrame() {
         return storeFrame;
     }
 
+    /**
+     * Get the game frame, which is the main frame where the game is ran
+     * @return the game frame, which is the main frame where the game is ran
+     */
     public GameFrame getGameFrame() {
         return gameFrame;
     }
 
-    public Renderer(int tile_width, int tile_height)
+    /**
+     * Initialize the GUI system
+     * @param tile_cols is the number of columns which have tiles
+     * @param tile_rows is the number of rows which have tiles
+     */
+    public GUISystem(int tile_cols, int tile_rows)
     {
+        if(tile_cols > 0)
+            this.WIDTH = tile_cols;
+        else
+            this.WIDTH = 10;
+
+        if(tile_rows > 0)
+            this.HEIGHT = tile_rows;
+        else
+            this.HEIGHT = 5;
+
         initializeGameFrames();
-        initializeTileSet(tile_width, tile_height);
         initializeFrames();
         mainMenuFrame.setVisible(true);
     }
@@ -54,46 +93,57 @@ public class Renderer {
     /**
      * Initialize the tile set that contains the tiles in which the player can plant crops
      */
-    private void initializeTileSet(int tile_row, int tile_col) {
+    private void initializeTileSet() {
         tileSet = new ArrayList<ArrayList<Tile>>();
 
-        for (int i = 0; i < tile_col; i++)
+        //Loop through width x height times
+        for (int i = 0; i < WIDTH; i++)
         {
-            ArrayList<Tile> tileRow = new ArrayList<Tile>();
-            for (int j = 0; j < tile_row; j++) {
-                Tile tile = new Tile(3,i * tile_row + j);
+            ArrayList<Tile> tileRow = new ArrayList<Tile>(); //tile row
+
+            //Instantiate a tile
+            for (int j = 0; j < HEIGHT; j++) {
+                Tile tile = new Tile(3,i * HEIGHT + j);
 
                 tile.addActionListener(e ->
                     {
                         Tile source = (Tile) e.getSource();
                         GameSystem.selectTile(source);
-                        updateSelectedTileInfo(source);
+                        highlightTile(source);
 
                         gameFrame.getToolsPanel().performSelectedButtonAction();
                     }
-                );
+                ); //When a tile is clicked, select it, show tile info, and highlight the tile
 
                 tileRow.add(tile);
             }
-            System.out.println("Row #" + i);
             tileSet.add(tileRow);
         }
 
+        //Add the rocks
         generateRockMap();
 
-        gameFrame.displayTilesSet(tileSet, tile_row, tile_col);
+        //Display the tile on the game frame
+        gameFrame.initializeTiles(tileSet, WIDTH, HEIGHT);
+
+        //select the very first tile as default
         GameSystem.selectTile(tileSet.get(0).get(0));
     }
 
+    /**
+     * Place rocks all over the tiles
+     */
     private void generateRockMap()
     {
         FileInputStream in = null;
 
+        //Try to read the generated rock config file, if possible
         try
         {
             in = new FileInputStream(RockMapGenerator.ROCK_MAP_FILE_NAME);
 
             int c;
+            //Using the given tile ID, place a rock on there
             while((c = in.read()) != -1)
             {
                 Tile tile = getTileWithID(c);
@@ -103,23 +153,38 @@ public class Renderer {
         }
         catch (IOException e)
         {
+            //Default rock if config not found
+            Tile tile = getTileWithID(39);
+            if(!tile.equals(null))
+                tile.setStateID(Tile.ROCKY);
+
             System.out.println(e);
         }
     }
 
+    /**
+     * Initialize the frames that are used by the game frame. These have to be initialized BEFORE the tileset is initialized
+     * Additionally, these frames need to be reinitialized again after the game is restarted,
+     */
     private void initializeGameFrames()
     {
+        //Store
         storeFrame = new StoreFrame(e -> storeFrame.setVisible(false));
+
+        //Farmer Registration
         farmerRegistrationFrame = new FarmerRegistrationFrame
                 (
                         e ->
                             {
-                            String message = GameSystem.advancePlayerFarmerType();
-                            gameFrame.showMessage(message);
-                            farmerRegistrationFrame.setVisible(false);
+                                //Player advances farmer type
+                                String message = GameSystem.advancePlayerFarmerType();
+                                gameFrame.showMessage(message);
+                                farmerRegistrationFrame.setVisible(false);
                             },
                         e -> farmerRegistrationFrame.setVisible(false)
                 );
+
+        //Game Frame
         gameFrame = new GameFrame
                 (
                         storeFrame,
@@ -132,20 +197,11 @@ public class Renderer {
                             }, //Register Farmer Type
                         e -> exitGameFrames() //Quit Game
                 );
-    }
-    private void initializeFrames()
-    {
-        helpFrame = new HelpFrame
-                (
-                        e ->
-                        {
-                            mainMenuFrame.setVisible(true);
-                            helpFrame.setVisible(false);
-                        }
-                );
+
+        //Main menu
         mainMenuFrame = new MainMenuFrame
                 (
-                        e ->
+                        e -> //On Game Start
                         {
                             if(mainMenuFrame.hasPlayerName()) {
                                 GameSystem.startGame(mainMenuFrame.getPlayerName());
@@ -154,36 +210,76 @@ public class Renderer {
                                 mainMenuFrame.setVisible(false);
                                 mainMenuFrame.hideEmptyNameMessage();
                             } else
-                            {
                                 mainMenuFrame.showEmptyNameMessage();
-                            }
                         }
                         ,
-                        e ->
-                        {
-                            helpFrame.setVisible(true);
-                            mainMenuFrame.setVisible(false);
-                        }
-                        ,
-                        e -> System.exit(0)
+                        e -> System.exit(0) //On Quit
                 );
+
+        //Seeds
         seedsFrame = new SeedsFrame(e -> seedsFrame.setVisible(false));
+
+        //Game Over
         gameOverFrame = new GameOverFrame
                 (
-                    e ->
-                    {
-                        restartGameFrames();
-                        gameOverFrame.setVisible(false);
-                    },
-                    e ->
-                    {
-                        exitGameFrames();
-                        gameOverFrame.setVisible(false);
-                    }
+                        e ->
+                        {
+                            restartGameFrames(); //Restart
+                            gameOverFrame.setVisible(false);
+                        },
+                        e ->
+                        {
+                            exitGameFrames(); //Quit
+                            gameOverFrame.setVisible(false);
+                        }
                 );
-
     }
 
+    /**
+     * Initialize the other frames that are used by the program. These do not need to be updated after the game is restarted
+     */
+    private void initializeFrames()
+    {
+        //Main menu
+        mainMenuFrame = new MainMenuFrame
+                (
+                        e -> //On Game Start
+                        {
+                            if(mainMenuFrame.hasPlayerName()) {
+                                GameSystem.startGame(mainMenuFrame.getPlayerName());
+
+                                gameFrame.setVisible(true);
+                                mainMenuFrame.setVisible(false);
+                                mainMenuFrame.hideEmptyNameMessage();
+                            } else
+                                mainMenuFrame.showEmptyNameMessage();
+                        }
+                        ,
+                        e -> System.exit(0) //On Quit
+                );
+
+        //Seeds
+        seedsFrame = new SeedsFrame(e -> seedsFrame.setVisible(false));
+
+        //Game Over
+        gameOverFrame = new GameOverFrame
+                (
+                        e ->
+                        {
+                            restartGameFrames(); //Restart
+                            gameOverFrame.setVisible(false);
+                        },
+                        e ->
+                        {
+                            exitGameFrames(); //Quit
+                            gameOverFrame.setVisible(false);
+                        }
+                );
+    }
+
+    /**
+     * Restart the game frames
+     */
     private void restartGameFrames()
     {
         gameFrame.setVisible(false);
@@ -192,6 +288,9 @@ public class Renderer {
         gameFrame.setVisible(true);
     }
 
+    /**
+     * Exit the game frames
+     */
     private void exitGameFrames()
     {
         gameFrame.setVisible(false);
@@ -200,8 +299,13 @@ public class Renderer {
         GameSystem.quitGame();
     }
 
+    /**
+     * Show the end game screen to the player
+     * @param message
+     */
     public void showEndGameScreen(String message)
     {
+        gameFrame.changeColorGameOver();
         gameOverFrame.showGameOverMessage(message);
     }
     public void updatePlayerStats(String[] playerStats)
@@ -210,6 +314,10 @@ public class Renderer {
     }
 
 
+    /**
+     * update the crops in the tileset once a day has advanced and display the current day on the screen
+     * @param currDay is the current day
+     */
     public void advanceDay(int currDay)
     {
         for(int i = 0; i < tileSet.size(); i++) {
@@ -243,7 +351,7 @@ public class Renderer {
         updateSeedStore(seedStore);
     }
 
-    public void updateSelectedTileInfo(Tile selectedTile)
+    public void highlightTile(Tile selectedTile)
     {
         gameFrame.getTilesInfoPanel().updateTileInfoTable(selectedTile.getTileInfo());
 
@@ -256,12 +364,12 @@ public class Renderer {
         selectedTile.setBackground(SELECTED_TILE_BG);
     }
 
-    public void resetGameFrames(int tile_row, int tile_col)
+    public void resetGameFrames()
     {
         initializeGameFrames();
-        initializeTileSet(tile_row, tile_col);
+        initializeTileSet();
     }
-    public boolean isSelectedTilesAdjacentEmpty(Tile selectedTile)
+    public boolean isSelectedTilesSurroundingEmpty(Tile selectedTile)
     {
         int tileID = selectedTile.getTileID();
         int topTileID = tileID - 10;

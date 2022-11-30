@@ -4,8 +4,8 @@ import java.util.Objects;
 
 /** GameLogic.FarmerType class which defines the different perks of farmer registration in the game
  * @author Aaron Dichoso & Andrei Martin
- * @version 2.1
- * @since 01/11/2022
+ * @version 3.2
+ * @since 30/11/2022
  */
 public class FarmerType {
     private String name;

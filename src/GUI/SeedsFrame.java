@@ -5,11 +5,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class SeedsFrame extends JFrame {
+public class SeedsFrame extends ParentFrame {
 
     protected DefaultTableModel seedsTableModel;
     public SeedsFrame(ActionListener onQuitAction)
     {
+        super();
         //Create the main menu frame (Has the image display, title, start game button, help button, and quit button)
         setName("GATHER SUN");
         setSize(720, 300);
@@ -25,6 +26,7 @@ public class SeedsFrame extends JFrame {
         storePanel.add(storeName, BorderLayout.NORTH);
         storePanel.add(seedsTbl.getTableHeader(), BorderLayout.NORTH);
         storePanel.add(seedsTbl, BorderLayout.CENTER);
+        storePanel.setOpaque(false);
 
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(onQuitAction);
@@ -39,20 +41,10 @@ public class SeedsFrame extends JFrame {
 
 
         for(int i = 0; i < rows; i++)
-        {
             seedsTableModel.removeRow(0);
-        }
 
         for (String[] storeRow: seedStore)
-        {
-            if (seedsTableModel.getRowCount() <= 0)
-                seedsTableModel.insertRow(0, storeRow);
-            else
-                seedsTableModel.insertRow(seedsTableModel.getRowCount() - 1, storeRow);
-        }
-
-        rows = seedsTableModel.getRowCount() - 1;
-        seedsTableModel.moveRow(rows, rows,0);
+            seedsTableModel.insertRow(seedsTableModel.getRowCount(), storeRow);
     }
 
     public void addStoreHeaders(String[] seedColumns)

@@ -7,8 +7,8 @@ import java.util.Random;
 
 /** GameLogic.Player class which acts as a farmer for the farming game
  * @author Aaron Dichoso & Andrei Martin
- * @version 2.1
- * @since 01/11/2022
+ * @version 3.2
+ * @since 30/11/2022
  */
 
 public class Player {
@@ -28,9 +28,9 @@ public class Player {
     public Player(String name, FarmerType farmerType)
     {
         this.name = name;
-        this.experience = 500;
+        this.experience = 0;
         this.level = 0;
-        this.objectCoins = 300;
+        this.objectCoins = 100;
         this.farmerType = farmerType;
         initializeTools();
     }
@@ -53,7 +53,6 @@ public class Player {
         else
             this.farmerType = null; //No farmer type
     }
-
 
     /**
      * Return the name of the player
@@ -87,7 +86,6 @@ public class Player {
     public int getLevel() {
         return level;
     }
-
 
     /**
      * Set the level of the player (Cannot be lower than 0)
@@ -186,7 +184,7 @@ public class Player {
      * @param toolID is the ID of the tool to find
      * @return the index in the tools array where the tool is found (-1 if none)
      */
-        public int getToolByID(char toolID)
+    public int getToolByID(char toolID)
     {
         for(int i = 0; i < tools.size(); i++)
             if(tools.get(i).getID() == toolID)
@@ -260,7 +258,7 @@ public class Player {
                 boolean canPlant = true;
                 if(crop.getType().equals(Crop.FRUIT_TREE_CROP_TYPE))
                     //Some extra checking has to be performed first before being able to plant a fruit tree
-                    canPlant = GameSystem.getRenderer().isSelectedTilesAdjacentEmpty(tile);
+                    canPlant = GameSystem.getGUISystem().isSelectedTilesSurroundingEmpty(tile);
 
                 if(canPlant)
                 {
@@ -450,7 +448,7 @@ public class Player {
     public String advanceFarmerType(FarmerType newFarmerType)
     {
         //Check if player still has a next Farmer Type (not max GameLogic.FarmerType)
-        if(!newFarmerType.equals(null)) {
+        if(!newFarmerType.getName().equals("NULL")) {
             //Check if player has enough levels to advance
             if (newFarmerType.getLevelReq() <= getLevel()) {
                 //Can register, check if player has enough money to do so

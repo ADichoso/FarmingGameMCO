@@ -14,8 +14,7 @@ public class TileInfoPanel extends JPanel {
         setName("Tile Information");
         setPreferredSize(new Dimension(300, 400));
 
-        JPanel tileInfoPanel = new JPanel();
-        tileInfoPanel.setLayout(new FlowLayout());
+        setOpaque(false);
 
         tileInfoTableModel = new DefaultTableModel();
         tileInfoTableModel.addColumn("Tile Information");
@@ -28,12 +27,11 @@ public class TileInfoPanel extends JPanel {
     public void updateTileInfoTable(String[] tileInfo)
     {
         int rows = tileInfoTableModel.getRowCount();
+
         for(int i = 0; i < rows; i++)
             tileInfoTableModel.removeRow(0);
 
         for (String info: tileInfo)
-        {
             tileInfoTableModel.insertRow(tileInfoTableModel.getRowCount(), new Object[] {info});
-        }
     }
 }
