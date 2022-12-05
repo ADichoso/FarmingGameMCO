@@ -25,9 +25,18 @@ public class ToolsPanel extends JPanel {
     {
         for(ToolButtonPanel toolButtonPanel : toolButtonPanels)
             toolButtonPanel.getToolButton().setBackground(UNSELECTED_TOOL_COLOR);
-
+        
+        GameMusicSFX sfxPlayer = new GameMusicSFX();
+        
         this.selectedButton = selectedButton;
         this.selectedButton.setBackground(SELECTED_TOOL_COLOR);
+        
+        for (ToolButtonPanel toolButtonPanel : toolButtonPanels) {
+            if (toolButtonPanel.getToolButton() == selectedButton) {
+            	sfxPlayer.playSFX(toolButtonPanel.getSFXPath());
+            	// System.out.println(toolButtonPanel.getSFXPath());
+            }
+        }
     }
 
     /**
@@ -79,6 +88,20 @@ public class ToolsPanel extends JPanel {
         {
             System.out.println(ex);
         }
+        
+        try {
+            plowButtonPanel.setButtonSFX(MusicSFXLocation.PLOW_SFX_NAME);
+            shovelButtonPanel.setButtonSFX(MusicSFXLocation.SHOVEL_SFX_NAME);
+            pickaxeButtonPanel.setButtonSFX(MusicSFXLocation.PICKAXE_SFX_NAME);
+            plantButtonPanel.setButtonSFX(MusicSFXLocation.PLANT_SFX_NAME);
+            waterButtonPanel.setButtonSFX(MusicSFXLocation.WATER_SFX_NAME);
+            // fertilizerButtonPanel.setButtonSFX(PictureLocations.PLOW_ICON_NAME);
+            harvestButtonPanel.setButtonSFX(MusicSFXLocation.HARVEST_SFX_NAME);
+        } catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+        
         add(plowButtonPanel);
         add(shovelButtonPanel);
         add(pickaxeButtonPanel);

@@ -14,6 +14,7 @@ public class ToolButtonPanel extends JPanel {
 
     private JButton toolButton;
     private JLabel textLbl;
+    private String sfxPath;
 
     /**
      * Get the tool button
@@ -29,6 +30,14 @@ public class ToolButtonPanel extends JPanel {
      */
     public JLabel getTextLbl() {
         return textLbl;
+    }
+    
+    /**
+     * get the button sound effect
+     * @return the sound effect
+     */
+    public String getSFXPath() {
+        return sfxPath;
     }
 
     /**
@@ -63,6 +72,15 @@ public class ToolButtonPanel extends JPanel {
         {
             System.out.println(ex);
         }
+    }
+    
+    /**
+     * Set the button sound effect
+     * @param sfx is the set sound effect of the button
+     */
+    public void setButtonSFX(String path)
+    {
+        this.sfxPath = path;
     }
 
     /**
