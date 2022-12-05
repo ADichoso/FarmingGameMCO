@@ -10,7 +10,6 @@ import java.awt.*;
  */
 public class ParentFrame extends JFrame{
     protected static final Color BG_COLOR = new Color(107, 255, 129);
-    protected static final Color BG_COLOR_RED = new Color(255, 107, 107);
 
     /**
      * Initialize the frame with a specific design.

@@ -106,14 +106,6 @@ public class Tile extends JButton{
     }
 
     /**
-     * Check if there is a crop on the tile
-     * @return true if there's a crop, false if not
-     */
-    public boolean hasCrop() {
-        return !crop.isNullCrop();
-    }
-
-    /**
      * Set the crop that is on the tile (new instance of crop object. Same values, different object to avoid interning)
      * @param crop is the crop whose values will be copied on the new object
      */
@@ -123,6 +115,14 @@ public class Tile extends JButton{
             this.crop = new Crop(crop);
         else
             this.crop = new Crop(); //Set to null if null
+    }
+
+    /**
+     * Check if there is a crop on the tile
+     * @return true if there's a crop, false if not
+     */
+    public boolean hasCrop() {
+        return !crop.isNullCrop();
     }
 
     /**
@@ -208,12 +208,12 @@ public class Tile extends JButton{
         if(hasCrop())
         {
             tileInfoList.add("\t>> Current Plant: " + getCrop().getName());
-            tileInfoList.add("\t\t> Age: " + getCrop().getAge());
+            tileInfoList.add("\t\t> Age: " + getCrop().getAge() + " / " + getCrop().getHarvestTime());
             tileInfoList.add("\t\t> Ready for Harvest: " + getCrop().isReadyForHarvest());
             tileInfoList.add("\t\t> Is Withered: " + getCrop().isWithered());
-            tileInfoList.add("\t\t> Times Watered: " + getCrop().getWaterTimes());
+            tileInfoList.add("\t\t> Times Watered: " + getCrop().getWaterTimes() + " / " + getCrop().getWaterLim());
             tileInfoList.add("\t\t\t- Has Water Needs: " + getCrop().hasWaterNeeds());
-            tileInfoList.add("\t\t> Times Fertilized: " + getCrop().getFertTimes());
+            tileInfoList.add("\t\t> Times Fertilized: " + getCrop().getFertTimes() + " / " + getCrop().getFertLim());
             tileInfoList.add("\t\t\t- Has Fertilizer Needs: " + getCrop().hasFertNeeds());
         }
 

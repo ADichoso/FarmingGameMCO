@@ -138,7 +138,7 @@ public class GameFrame extends ParentFrame {
         JButton registerButton = new JButton("Register Farmer Type");
         registerButton.addActionListener(onRegisterAction);
 
-        messageLabel = new JLabel("HELLLLLLLLLLLLLLO");
+        messageLabel = new JLabel();
 
         JPanel bottomButtonPanel = new JPanel();
         bottomButtonPanel.add(advanceDayButton, BorderLayout.SOUTH);
@@ -236,10 +236,6 @@ public class GameFrame extends ParentFrame {
     }
 
 
-    public void changeColorGameOver()
-    {
-        getContentPane().setBackground(BG_COLOR_RED);
-    }
     /**
      * Display the current day to the user
      * @param currDay is the current day

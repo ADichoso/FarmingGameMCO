@@ -25,12 +25,16 @@ public class Player {
      * @param name
      * @param farmerType
      */
-    public Player(String name, FarmerType farmerType)
+    public Player(String name, float startExperience, int startObjectcoins, FarmerType farmerType)
     {
         this.name = name;
+
         this.experience = 0;
+        gainExperience(startExperience);
         this.level = 0;
-        this.objectCoins = 100;
+
+        this.objectCoins = 0;
+        gainObjectCoins(startObjectcoins);
         this.farmerType = farmerType;
         initializeTools();
     }
@@ -425,9 +429,16 @@ public class Player {
             if(tile.hasCrop()) { //has a crop
                 if(!tile.getCrop().isWithered()) { ///not withered
                     //Fertilize crop
-                    tile.fertilizeCrop();
+
                     String message = "<html>" + useTool('f');
-                    message += "<br>" + name + " has put fertilizer!</html>";
+
+                    if(message.equals("<html>Whoops! Looks like you do not have enough Objectcoins for that tool!"))
+                        message += "</html>";
+                    else {
+                        tile.fertilizeCrop();
+                        message += "<br>" + name + " has put fertilizer!</html>";
+                    }
+
 
                     return message;
                 }

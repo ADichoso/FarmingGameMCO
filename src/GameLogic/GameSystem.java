@@ -118,11 +118,14 @@ public class GameSystem {
         cropTypes.add(new Crop("Turnip", Crop.ROOT_CROP_TYPE, 5, 2, 1, 0, 2, 1, 1, 2, 6, 5f));
         cropTypes.add(new Crop("Carrot", Crop.ROOT_CROP_TYPE, 10,3, 1, 0, 2, 1, 1, 2, 9, 7.5f));
         cropTypes.add(new Crop("Potato", Crop.ROOT_CROP_TYPE, 20, 5, 3, 1, 4, 1, 1, 10, 3, 12.5f));
+        cropTypes.add(new Crop("Pineapple", Crop.ROOT_CROP_TYPE, 40, 12, 8, 4, 9, 6, 1, 3, 100, 65.5f));
+        cropTypes.add(new Crop("Watermelon", Crop.ROOT_CROP_TYPE, 50, 14, 10, 5, 15, 8, 1, 5, 75, 87.5f));
         cropTypes.add(new Crop("Rose", Crop.FLOWER_CROP_TYPE, 5, 1, 1, 0, 2, 1, 1, 1, 5, 2.5f));
         cropTypes.add(new Crop("Tulip", Crop.FLOWER_CROP_TYPE, 10,2, 2, 0, 3, 1, 1, 1, 9, 5f));
         cropTypes.add(new Crop("Sunflower", Crop.FLOWER_CROP_TYPE, 20, 3, 2, 1, 3, 2, 1, 1, 19, 7.5f));
         cropTypes.add(new Crop("Mango", Crop.FRUIT_TREE_CROP_TYPE, 100,10, 7, 4, 7, 4, 5, 15, 8, 25f));
         cropTypes.add(new Crop("Apple", Crop.FRUIT_TREE_CROP_TYPE, 200, 10, 7, 5, 7, 5, 10, 15, 5, 25f));
+        cropTypes.add(new Crop("Orange", Crop.FRUIT_TREE_CROP_TYPE, 350, 15, 10, 7, 20, 10, 15, 35, 8, 35.5f));
         selectCrop(cropTypes.get(0).getName());
     }
 
@@ -157,7 +160,7 @@ public class GameSystem {
      */
     private static String[] getSeedColumns()
     {
-        String[] seedColumns = {"Name","Crop Type","Costs","Maturity","Water Requirements","Fert Requirements","Yield Amount","Sell Price per Produce","EXP Gain"};
+        String[] seedColumns = {"Name","Crop Type","Costs","Maturity","Water Reqs.","Fert Reqs.","Yield Amt","Price/Crop","EXP Gain"};
         return seedColumns;
     }
 
@@ -401,7 +404,7 @@ public class GameSystem {
      */
     public static void startGame(String playerName)
     {
-        player = new Player(playerName, farmerTypes.get(0));
+        player = new Player(playerName, 0, 100, farmerTypes.get(0));
         initializeGUI();
     }
 
@@ -410,7 +413,7 @@ public class GameSystem {
      */
     public static void resetGame()
     {
-        player = new Player(player.getName(), farmerTypes.get(0));
+        player = new Player(player.getName(), 0, 100, farmerTypes.get(0));
         quitGame();
     }
 
@@ -420,8 +423,7 @@ public class GameSystem {
     public static void quitGame()
     {
         currDay = 1;
-        guiSystem.resetFrames();
-        updateGUI();
+        guiSystem.initializeGameFrames();
     }
 
     public static void main(String[] args) {

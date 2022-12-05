@@ -25,7 +25,7 @@ public class StoreFrame extends SeedsFrame {
     {
         super(onQuitAction);
 
-        setSize(800, 300);
+        setSize(800, 400);
 
         cropButtonsPanel = new JPanel();
         cropButtonsPanel.setPreferredSize(new Dimension(40, getHeight()));

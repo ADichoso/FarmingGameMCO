@@ -23,7 +23,7 @@ public class SeedsFrame extends ParentFrame {
         super();
         //Create the main menu frame (Has the image display, title, start game button, help button, and quit button)
         setName("GATHER SUN");
-        setSize(720, 300);
+        setSize(720, 360);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
@@ -32,7 +32,7 @@ public class SeedsFrame extends ParentFrame {
 
         seedsTableModel = new DefaultTableModel();
         JTable seedsTbl = new JTable(seedsTableModel);
-
+        seedsTbl.setRowHeight(20);
         storePanel.add(storeName, BorderLayout.NORTH);
         storePanel.add(seedsTbl.getTableHeader(), BorderLayout.NORTH);
         storePanel.add(seedsTbl, BorderLayout.CENTER);

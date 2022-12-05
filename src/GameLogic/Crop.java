@@ -1,12 +1,13 @@
 package GameLogic;
 
+import GUI.PictureLocations;
+
 /** GameLogic.Crop class which defines the attributes that each crop contains
  * @author Aaron Dichoso & Andrei Martin
  * @version 3.2
  * @since 30/11/2022
  */
 public class Crop {
-    private static final String WITHERED_ICON_FILE_NAME = "Resources/Crops/withered.png";
     public static final String ROOT_CROP_TYPE = "Root Crop";
     public static final String FLOWER_CROP_TYPE = "Flower";
     public static final String FRUIT_TREE_CROP_TYPE = "Fruit Tree";
@@ -61,7 +62,7 @@ public class Crop {
         this.expYield = expYield;
 
         System.out.println("Crop with name " + this.name + " is created.");
-        System.out.println("REMINDER: will require an associated picture file of " + this.name + ".png to be created and placed inside GUI/Crops folder");
+        System.out.println("REMINDER: will require an associated picture file of " + PictureLocations.getCropIconFileName(getName()) + " and " + PictureLocations.getFruitIconFileName(getName()) + " to be created and placed inside GUI/Crops folder");
     }
 
     /**

@@ -86,7 +86,6 @@ public class GUISystem {
             this.HEIGHT = 5;
 
         initializeGameFrames();
-        initializeFrames();
         mainMenuFrame.setVisible(true);
     }
 
@@ -166,7 +165,7 @@ public class GUISystem {
      * Initialize the frames that are used by the game frame. These have to be initialized BEFORE the tileset is initialized
      * Additionally, these frames need to be reinitialized again after the game is restarted,
      */
-    private void initializeGameFrames()
+    public void initializeGameFrames()
     {
         //Store
         storeFrame = new StoreFrame(e -> storeFrame.setVisible(false));
@@ -198,48 +197,8 @@ public class GUISystem {
                         e -> exitGameFrames() //Quit Game
                 );
 
-        //Main menu
-        mainMenuFrame = new MainMenuFrame
-                (
-                        e -> //On Game Start
-                        {
-                            if(mainMenuFrame.hasPlayerName()) {
-                                GameSystem.startGame(mainMenuFrame.getPlayerName());
+        initializeTileSet();
 
-                                gameFrame.setVisible(true);
-                                mainMenuFrame.setVisible(false);
-                                mainMenuFrame.hideEmptyNameMessage();
-                            } else
-                                mainMenuFrame.showEmptyNameMessage();
-                        }
-                        ,
-                        e -> System.exit(0) //On Quit
-                );
-
-        //Seeds
-        seedsFrame = new SeedsFrame(e -> seedsFrame.setVisible(false));
-
-        //Game Over
-        gameOverFrame = new GameOverFrame
-                (
-                        e ->
-                        {
-                            restartGameFrames(); //Restart
-                            gameOverFrame.setVisible(false);
-                        },
-                        e ->
-                        {
-                            exitGameFrames(); //Quit
-                            gameOverFrame.setVisible(false);
-                        }
-                );
-    }
-
-    /**
-     * Initialize the other frames that are used by the program. These do not need to be updated after the game is restarted
-     */
-    private void initializeFrames()
-    {
         //Main menu
         mainMenuFrame = new MainMenuFrame
                 (
@@ -282,7 +241,6 @@ public class GUISystem {
      */
     private void restartGameFrames()
     {
-        gameFrame.setVisible(false);
         tileSet.clear();
         GameSystem.resetGame();
         gameFrame.setVisible(true);
@@ -293,10 +251,10 @@ public class GUISystem {
      */
     private void exitGameFrames()
     {
-        gameFrame.setVisible(false);
-        mainMenuFrame.setVisible(true); //Quit Game
+        //Quit Game
         tileSet.clear();
         GameSystem.quitGame();
+        mainMenuFrame.setVisible(true);
     }
 
     /**
@@ -305,7 +263,7 @@ public class GUISystem {
      */
     public void showEndGameScreen(String message)
     {
-        gameFrame.changeColorGameOver();
+        gameFrame.setVisible(false);
         gameOverFrame.showGameOverMessage(message);
     }
     public void updatePlayerStats(String[] playerStats)
@@ -378,16 +336,6 @@ public class GUISystem {
 
         //Highlight the selected tile
         selectedTile.setBackground(SELECTED_TILE_BG);
-    }
-
-
-    /**
-     * Reset the frames after a game ends
-     */
-    public void resetFrames()
-    {
-        initializeGameFrames();
-        initializeTileSet();
     }
 
     /**
