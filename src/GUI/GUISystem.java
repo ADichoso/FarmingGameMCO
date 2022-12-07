@@ -15,6 +15,9 @@ import java.util.ArrayList;
 public class GUISystem {
     private static final Color UNSELECTED_TILE_BG = new Color(124, 179, 66);
     private static final Color SELECTED_TILE_BG = new Color(80, 134, 24);
+    private static final Color WITHERED_TILE_BG = new Color(77, 39, 20);
+    private static final Color WATERED_TILE_BG = new Color(58, 162, 119);
+    private static final Color READY_TILE_BG = new Color(220, 203, 96);
 
     private final int WIDTH;
     private final int HEIGHT;
@@ -26,6 +29,7 @@ public class GUISystem {
     private StoreFrame storeFrame;
     private FarmerRegistrationFrame farmerRegistrationFrame;
     private GameOverFrame gameOverFrame;
+
 
 
     /**
@@ -86,6 +90,7 @@ public class GUISystem {
             this.HEIGHT = 5;
 
         initializeGameFrames();
+
         mainMenuFrame.setVisible(true);
     }
 
@@ -252,6 +257,7 @@ public class GUISystem {
     private void exitGameFrames()
     {
         //Quit Game
+        gameFrame.setVisible(false);
         tileSet.clear();
         GameSystem.quitGame();
         mainMenuFrame.setVisible(true);
@@ -289,7 +295,7 @@ public class GUISystem {
 
     /**
      * Update the seed and store prices according to the player's farmer type. This should only run if a player's farmer type changes.
-     * @param seedStore
+     * @param seedStore is all the information regarding the seeds
      */
     public void updateSeedStore(String[][] seedStore)
     {
@@ -330,7 +336,20 @@ public class GUISystem {
         //Unhighlighted all of the other tiles
         for(int i = 0; i < tileSet.size(); i++) {
             for (int j = 0; j < tileSet.get(i).size(); j++) {
-                tileSet.get(i).get(j).setBackground(UNSELECTED_TILE_BG);
+                Tile currentTile = tileSet.get(i).get(j);
+                if(currentTile.hasCrop())
+                {
+                    if(currentTile.getCrop().isWithered())
+                        currentTile.setBackground(WITHERED_TILE_BG);
+                    else if(currentTile.getCrop().isReadyForHarvest())
+                        currentTile.setBackground(READY_TILE_BG);
+                    else if(currentTile.getCrop().hasWaterNeeds())
+                        currentTile.setBackground(WATERED_TILE_BG);
+                    else
+                        currentTile.setBackground(UNSELECTED_TILE_BG);
+
+                } else
+                    currentTile.setBackground(UNSELECTED_TILE_BG);
             }
         }
 

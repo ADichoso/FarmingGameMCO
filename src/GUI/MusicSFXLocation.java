@@ -1,8 +1,8 @@
 package GUI;
 /** A File that contains all of the files used as music and sound effects in the application
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
- * @since 06/12/2022
+ * @version 3.3
+ * @since 07/12/2022
  */
 public class MusicSFXLocation {
 	private static final String RESOURCES_DIRECTORY = "Resources/";

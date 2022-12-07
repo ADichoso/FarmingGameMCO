@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 /** The tools panel which contains all the tools that the player can use
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
- * @since 30/11/2022
+ * @version 3.3
+ * @since 07/12/2022
  */
 public class ToolsPanel extends JPanel {
     private static final Color UNSELECTED_TOOL_COLOR = Color.LIGHT_GRAY;
@@ -26,17 +26,8 @@ public class ToolsPanel extends JPanel {
         for(ToolButtonPanel toolButtonPanel : toolButtonPanels)
             toolButtonPanel.getToolButton().setBackground(UNSELECTED_TOOL_COLOR);
         
-        GameMusicSFX sfxPlayer = new GameMusicSFX();
-        
         this.selectedButton = selectedButton;
         this.selectedButton.setBackground(SELECTED_TOOL_COLOR);
-        
-        for (ToolButtonPanel toolButtonPanel : toolButtonPanels) {
-            if (toolButtonPanel.getToolButton() == selectedButton) {
-            	sfxPlayer.playSFX(toolButtonPanel.getSFXPath());
-            	// System.out.println(toolButtonPanel.getSFXPath());
-            }
-        }
     }
 
     /**
@@ -84,19 +75,6 @@ public class ToolsPanel extends JPanel {
             waterButtonPanel.setButtonIcon(new ImageIcon(ToolsPanel.class.getResource(PictureLocations.WATER_ICON_NAME)));
             fertilizerButtonPanel.setButtonIcon(new ImageIcon(ToolsPanel.class.getResource(PictureLocations.FERTILIZER_ICON_NAME)));
             harvestButtonPanel.setButtonIcon(new ImageIcon(ToolsPanel.class.getResource(PictureLocations.HARVEST_ICON_NAME)));
-        } catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
-        
-        try {
-            plowButtonPanel.setButtonSFX(MusicSFXLocation.PLOW_SFX_NAME);
-            shovelButtonPanel.setButtonSFX(MusicSFXLocation.SHOVEL_SFX_NAME);
-            pickaxeButtonPanel.setButtonSFX(MusicSFXLocation.PICKAXE_SFX_NAME);
-            plantButtonPanel.setButtonSFX(MusicSFXLocation.PLANT_SFX_NAME);
-            waterButtonPanel.setButtonSFX(MusicSFXLocation.WATER_SFX_NAME);
-            // fertilizerButtonPanel.setButtonSFX(PictureLocations.PLOW_ICON_NAME);
-            harvestButtonPanel.setButtonSFX(MusicSFXLocation.HARVEST_SFX_NAME);
         } catch (Exception ex)
         {
             System.out.println(ex);

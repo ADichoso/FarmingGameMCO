@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 /** A JFrame that contains the main game area of the application
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
- * @since 30/11/2022
+ * @version 3.3
+ * @since 07/12/2022
  */
 public class GameFrame extends ParentFrame {
 

@@ -1,14 +1,16 @@
 package GameLogic;
 
 import GUI.GUISystem;
+import GUI.GameMusicSFX;
+import GUI.MusicSFXLocation;
 import GUI.Tile;
 
 import java.util.ArrayList;
 
 /** GameLogic.GameSystem used to run the farming game application. The farming game allows the player to plant and harvest crops throughout the days.
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
- * @since 30/11/2022
+ * @version 3.3
+ * @since 07/12/2022
  */
 public class GameSystem {
     private static int currDay = 1;
@@ -18,6 +20,8 @@ public class GameSystem {
     private static Tile selectedTile;
     private static Crop selectedCrop;
     private static GUISystem guiSystem;
+
+    private static GameMusicSFX soundPlayer;
 
     /**
      * return the current day value
@@ -269,6 +273,8 @@ public class GameSystem {
     public static String onPlow()
     {
         String message = player.plowTile(selectedTile);
+        soundPlayer.playSFX(MusicSFXLocation.PLOW_SFX_NAME);
+
         updateGUI();
 
         return message;
@@ -280,6 +286,8 @@ public class GameSystem {
      */
     public static String onShovel() {
         String message = player.useShovel(selectedTile);
+        soundPlayer.playSFX(MusicSFXLocation.SHOVEL_SFX_NAME);
+
         updateGUI();
 
         return message;
@@ -291,6 +299,8 @@ public class GameSystem {
      */
     public static String onPickaxe() {
         String message = player.removeRock(selectedTile);
+        soundPlayer.playSFX(MusicSFXLocation.PICKAXE_SFX_NAME);
+
         updateGUI();
 
         return message;
@@ -302,6 +312,8 @@ public class GameSystem {
      */
     public static String onPlant() {
         String message = player.plantCrop(selectedTile, selectedCrop);
+        soundPlayer.playSFX(MusicSFXLocation.PLANT_SFX_NAME);
+
         updateGUI();
 
         return message;
@@ -313,6 +325,8 @@ public class GameSystem {
      */
     public static String onWater() {
         String message = player.waterLand(selectedTile);
+        soundPlayer.playSFX(MusicSFXLocation.WATER_SFX_NAME);
+
         updateGUI();
 
         return message;
@@ -324,6 +338,8 @@ public class GameSystem {
      */
     public static String onFert() {
         String message = player.fertilizeLand(selectedTile);
+        soundPlayer.playSFX(MusicSFXLocation.FERTILIZER_SFX_NAME);
+
         updateGUI();
 
         return message;
@@ -335,6 +351,7 @@ public class GameSystem {
      */
     public static String onHarvest() {
         String message = player.harvestCrop(selectedTile);
+        soundPlayer.playSFX(MusicSFXLocation.HARVEST_SFX_NAME);
         updateGUI();
 
         return message;
@@ -430,6 +447,7 @@ public class GameSystem {
         initializeFarmerTypes();
         initializeCropTypes();
 
+        soundPlayer = new GameMusicSFX();
         guiSystem = new GUISystem(10, 5);
     }
 }

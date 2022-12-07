@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 /** A JFrame that contains the main menu screen of the game
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
- * @since 30/11/2022
+ * @version 3.3
+ * @since 07/12/2022
  */
 public class MainMenuFrame extends ParentFrame {
 
