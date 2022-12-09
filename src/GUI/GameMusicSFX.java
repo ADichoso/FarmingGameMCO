@@ -6,8 +6,8 @@ import javax.swing.*;
 
 /** A File that allows sound to be played in the program
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.3
- * @since 07/12/2022
+ * @version 3.4
+ * @since 09/12/2022
  */
 public class GameMusicSFX {
 
@@ -42,30 +42,3 @@ public class GameMusicSFX {
 		}
 	}
 }
-
-/*
-try {
-    plowButtonPanel.setButtonSFX(MusicSFXLocation.PLOW_SFX_NAME);
-    shovelButtonPanel.setButtonSFX(MusicSFXLocation.SHOVEL_SFX_NAME);
-    pickaxeButtonPanel.setButtonSFX(MusicSFXLocation.PICKAXE_SFX_NAME);
-    plantButtonPanel.setButtonSFX(MusicSFXLocation.PLANT_SFX_NAME);
-    waterButtonPanel.setButtonSFX(MusicSFXLocation.WATER_SFX_NAME);
-    // fertilizerButtonPanel.setButtonSFX(PictureLocations.PLOW_ICON_NAME);
-    harvestButtonPanel.setButtonSFX(MusicSFXLocation.HARVEST_SFX_NAME);
-} catch (Exception ex)
-{
-    System.out.println(ex);
-}
-
-GameMusicSFX sfxPlayer = new GameMusicSFX();
-
-this.selectedButton = selectedButton;
-this.selectedButton.setBackground(SELECTED_TOOL_COLOR);
-
-for (ToolButtonPanel toolButtonPanel : toolButtonPanels) {
-    if (toolButtonPanel.getToolButton() == selectedButton) {
-    	sfxPlayer.playSFX(toolButtonPanel.getSFXPath());
-    	// System.out.println(toolButtonPanel.getSFXPath());
-    }
-}
-*/

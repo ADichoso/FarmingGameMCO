@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 /** Tiles for interaction for the farming game. Contains the crops and land the player will utilize.
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
- * @since 30/11/2022
+ * @version 3.4
+ * @since 09/12/2022
  */
 public class Tile extends JButton{
     public static final int PLOWED = 1;
@@ -88,7 +88,7 @@ public class Tile extends JButton{
         //Update the icon of the tile
         switch (stateID) {
             case NOT_PLOWED:
-                this.state = "not plowed";
+                this.state = "not_plowed";
                 break;
             case PLOWED:
                 this.state = "plowed";
@@ -157,15 +157,6 @@ public class Tile extends JButton{
     {
         String iconFileName = "";
         switch (getStateID()) {
-            case NOT_PLOWED:
-                iconFileName = PictureLocations.NOT_PLOWED_ICON_NAME;
-                break;
-            case PLOWED:
-                iconFileName = PictureLocations.PLOWED_ICON_NAME;
-                break;
-            case ROCKY:
-                iconFileName = PictureLocations.ROCKY_ICON_NAME;
-                break;
             case HAS_CROP:
                 if(getCrop().isReadyForHarvest())
                 {
@@ -182,6 +173,11 @@ public class Tile extends JButton{
                     //If crop is not yet harvestable, just show the plant
                     iconFileName = PictureLocations.getCropIconFileName(getCrop().getName());
                 }
+                break;
+            case NOT_PLOWED:
+            case PLOWED:
+            case ROCKY:
+                iconFileName = PictureLocations.getTileIconFileName(getState());
                 break;
         }
 

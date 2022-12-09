@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 /** GameLogic.GameSystem used to run the farming game application. The farming game allows the player to plant and harvest crops throughout the days.
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.3
- * @since 07/12/2022
+ * @version 3.4
+ * @since 09/12/2022
  */
 public class GameSystem {
     private static int currDay = 1;
@@ -70,6 +70,8 @@ public class GameSystem {
     public static GUISystem getGUISystem() {
         return guiSystem;
     }
+
+    public static GameMusicSFX getSoundPlayer() { return soundPlayer;}
 
     /**
      * Get the player object used in the application
