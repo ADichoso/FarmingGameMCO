@@ -264,6 +264,12 @@ public class GameSystem {
     public static String advancePlayerFarmerType()
     {
         String message = player.advanceFarmerType(getNextFarmerType());
+
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.CLICK_SFX_NAME);
+        
         updateGUI();
         return message;
     }
@@ -275,7 +281,11 @@ public class GameSystem {
     public static String onPlow()
     {
         String message = player.plowTile(selectedTile);
-        soundPlayer.playSFX(MusicSFXLocation.PLOW_SFX_NAME);
+        
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.PLOW_SFX_NAME);
 
         updateGUI();
 
@@ -301,7 +311,11 @@ public class GameSystem {
      */
     public static String onPickaxe() {
         String message = player.removeRock(selectedTile);
-        soundPlayer.playSFX(MusicSFXLocation.PICKAXE_SFX_NAME);
+        
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.PICKAXE_SFX_NAME);
 
         updateGUI();
 
@@ -314,7 +328,11 @@ public class GameSystem {
      */
     public static String onPlant() {
         String message = player.plantCrop(selectedTile, selectedCrop);
-        soundPlayer.playSFX(MusicSFXLocation.PLANT_SFX_NAME);
+
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.PLANT_SFX_NAME);
 
         updateGUI();
 
@@ -327,7 +345,11 @@ public class GameSystem {
      */
     public static String onWater() {
         String message = player.waterLand(selectedTile);
-        soundPlayer.playSFX(MusicSFXLocation.WATER_SFX_NAME);
+
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.WATER_SFX_NAME);
 
         updateGUI();
 
@@ -340,7 +362,11 @@ public class GameSystem {
      */
     public static String onFert() {
         String message = player.fertilizeLand(selectedTile);
-        soundPlayer.playSFX(MusicSFXLocation.FERTILIZER_SFX_NAME);
+
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.FERTILIZER_SFX_NAME);
 
         updateGUI();
 
@@ -353,7 +379,12 @@ public class GameSystem {
      */
     public static String onHarvest() {
         String message = player.harvestCrop(selectedTile);
-        soundPlayer.playSFX(MusicSFXLocation.HARVEST_SFX_NAME);
+        
+        if (message.contains("Whoops!"))
+        	soundPlayer.playSFX(MusicSFXLocation.ERROR_SFX_NAME);
+        else
+        	soundPlayer.playSFX(MusicSFXLocation.HARVEST_SFX_NAME);
+        
         updateGUI();
 
         return message;
@@ -394,6 +425,8 @@ public class GameSystem {
         currDay++;
         guiSystem.advanceDay(currDay);
         updateGUI();
+        soundPlayer.playSFX(MusicSFXLocation.CLICK_SFX_NAME);
+        
     }
 
     /**
@@ -425,6 +458,7 @@ public class GameSystem {
     {
         player = new Player(playerName, 0, 100, farmerTypes.get(0));
         initializeGUI();
+        soundPlayer.playSFX(MusicSFXLocation.CLICK_SFX_NAME);
     }
 
     /**
@@ -451,5 +485,9 @@ public class GameSystem {
 
         soundPlayer = new GameMusicSFX();
         guiSystem = new GUISystem(10, 5);
+        while (true) {
+        	soundPlayer.playRandomBG();
+        }
+        
     }
 }
