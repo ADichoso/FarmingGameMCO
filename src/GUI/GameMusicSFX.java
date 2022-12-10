@@ -6,8 +6,8 @@ import javax.swing.*;
 
 /** A File that allows sound to be played in the program
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.3
- * @since 07/12/2022
+ * @version 3.4
+ * @since 09/12/2022
  */
 public class GameMusicSFX {
 

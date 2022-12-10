@@ -1,7 +1,7 @@
 package GUI;
 /** A File that contains all of the files used as icons and pictures in the application
  * @author Aaron Dichoso & Andrei Martin
- * @version 3.2
+ * @version 3.4
  * @since 30/11/2022
  */
 public class PictureLocations {
@@ -16,9 +16,7 @@ public class PictureLocations {
     public static String getFruitIconFileName(String cropName){return CROPS_DIRECTORY + cropName.toLowerCase() + "_grown.png";}
 
     //Tiles pictures
-    public static final String PLOWED_ICON_NAME = TILES_DIRECTORY + "plowed.png";
-    public static final String NOT_PLOWED_ICON_NAME = TILES_DIRECTORY + "not_plowed.png";
-    public static final String ROCKY_ICON_NAME = TILES_DIRECTORY + "rocky.png";
+    public static String getTileIconFileName(String tileState){return TILES_DIRECTORY + tileState.toLowerCase() + ".png";}
 
     //Tools pictures
     public static final String SHOVEL_ICON_NAME = TOOLS_DIRECTORY + "shovel.png";

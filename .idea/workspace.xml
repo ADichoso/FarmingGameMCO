@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Fixed Bug where upon restarting the game, tiles would duplicate.&#10;&#10;Fixed Bug where upon quiting the game, the main menu would not work.&#10;&#10;Added Extra crops&#10;Edited GUI">
+    <list default="true" id="15321a81-1a26-4892-846d-7e97c1b76587" name="Changes" comment="Fixed Sound System. Sounds now play.&#10;Title Screen edited.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/GUISystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GUISystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/GameMusicSFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameMusicSFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MainMenuFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MainMenuFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MusicSFXLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MusicSFXLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolButtonPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolsPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameLogic/FarmerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/FarmerType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/PictureLocations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/PictureLocations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameLogic/GameSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic/GameSystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -159,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670228135725</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fixed Sound System. Sounds now play.&#10;Title Screen edited.">
+      <created>1670422728802</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1670422728802</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -190,7 +192,8 @@
     <MESSAGE value="Refactoring and added Documentation&#10;Added Icons" />
     <MESSAGE value="Refactoring and added Documentation" />
     <MESSAGE value="Fixed Bug where upon restarting the game, tiles would duplicate.&#10;&#10;Fixed Bug where upon quiting the game, the main menu would not work.&#10;&#10;Added Extra crops&#10;Edited GUI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Bug where upon restarting the game, tiles would duplicate.&#10;&#10;Fixed Bug where upon quiting the game, the main menu would not work.&#10;&#10;Added Extra crops&#10;Edited GUI" />
+    <MESSAGE value="Fixed Sound System. Sounds now play.&#10;Title Screen edited." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Sound System. Sounds now play.&#10;Title Screen edited." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
